@@ -1,13 +1,24 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class CoursePart {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne(optional = false)
     private Place source;
+    @ManyToOne(optional = false)
     private Place destination;
+    @Column(nullable = false)
     private Date sourceTime;
+    @Column(nullable = false)
     private Date destinationTime;
+    @Column(nullable = false)
     private Boolean isDestinationOnDemand;
+    @ManyToOne(optional = false)
     private Course course;
 
     public CoursePart(Place source, Place destination, Date sourceTime, Date destinationTime, Boolean isDestinationOnDemand, Course course) {

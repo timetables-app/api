@@ -1,8 +1,20 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Course {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne(optional = false)
     private Timetable timetable;
+    @ManyToOne(optional = false)
     private Line line;
+    @ManyToOne(optional = false)
     private Vehicle supportedVehicle;
 
     public Course(Timetable timetable, Line line, Vehicle supportedVehicle) {

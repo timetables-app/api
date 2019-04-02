@@ -1,17 +1,34 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
 public class Place implements Obsoletable {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PlaceType type;
+    @Column(nullable = false)
     private Double lat;
+    @Column(nullable = false)
     private Double lng;
+    @ManyToOne(optional = false)
     private Locality locality;
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
     private Set<Amenity> amenities;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String explanation;
+    @ManyToOne
     private Place isVariantOf;
+    @Column(nullable = false)
     private Integer capacity;
+    @Column(nullable = false)
     private Boolean isObsolete;
 
     public Place(PlaceType type, Double lat, Double lng, Locality locality, Set<Amenity> amenities, String name, String explanation, Place isVariantOf, Integer capacity) {

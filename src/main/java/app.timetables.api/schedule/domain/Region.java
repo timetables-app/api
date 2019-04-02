@@ -1,9 +1,19 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Region implements Obsoletable {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne(optional = false)
     private State state;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String code;
+    @Column(nullable = false)
     private Boolean isObsolete;
 
     public Region(State state, String name, String code) {

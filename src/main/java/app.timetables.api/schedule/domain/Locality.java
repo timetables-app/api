@@ -1,8 +1,17 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.*;
+
+@Entity
 public class Locality implements Obsoletable {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne(optional = false)
     private Region region;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Boolean isObsolete;
 
     public Locality(Region region, String name) {
