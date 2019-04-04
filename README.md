@@ -15,7 +15,7 @@ To run Tomcat Server use
 Api will be available on
 
 ```
-http://localhost:8080
+http://localhost:8080/swagger-ui.html
 ```
 
 ## Connecting to database

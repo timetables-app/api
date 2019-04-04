@@ -11,16 +11,20 @@ public class Country implements Obsoletable, Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     private String iso;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     private String name;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     private String iso3;
+
     @Column(nullable = false)
     private Boolean isObsolete = false;
 
-    public Country() {
+    Country() {
     }
 
     public Country(String name, String iso, String iso3) {
