@@ -30,7 +30,7 @@ public class CompanyController {
         return companyRepository.findAll(pageable);
     }
 
-    @PostMapping(value = "/approve/company/{id}", produces = "application/json")
+    @PostMapping(value = "/approve/{id}", produces = "application/json")
     public ResponseEntity<Company> approveCompany(@PathVariable Integer id) {
         Optional<Company> optionalCompany = companyRepository.findById(Long.valueOf(id));
         if (optionalCompany.isPresent()) {
@@ -41,7 +41,7 @@ public class CompanyController {
         return ResponseEntity.of(optionalCompany);
     }
 
-    @PostMapping(value = "/block/company/{id}", produces = "application/json")
+    @PostMapping(value = "/block/{id}", produces = "application/json")
     public ResponseEntity<Company> blockCompany(@PathVariable Integer id) {
         Optional<Company> optionalCompany = companyRepository.findById(Long.valueOf(id));
         if (optionalCompany.isPresent()) {
