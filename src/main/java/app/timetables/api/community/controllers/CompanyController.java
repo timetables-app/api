@@ -2,6 +2,7 @@ package app.timetables.api.community.controllers;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.community.repository.CompanyRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
 @RestController
 @RequestMapping("/companies")
+@Log4j2
 public class CompanyController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class CompanyController {
     }
 
     @GetMapping(produces = "application/json")
-    public Iterable<Company> getCompanies(@RequestParam(defaultValue = "10") Integer size, @RequestParam(defaultValue = "0") Integer page) {
+    public Iterable<Company> getCompanies(@RequestParam(defaultValue = "20") Integer size, @RequestParam(defaultValue = "0") Integer page) {
         Pageable pageable = PageRequest.of(page, size);
         return companyRepository.findAll(pageable);
     }
