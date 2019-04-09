@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/companies")
-@Log4j2
 public class CompanyController {
 
     @Autowired
@@ -26,8 +26,13 @@ public class CompanyController {
     }
 
     @GetMapping(produces = "application/json")
-    public Iterable<Company> getCompanies(@RequestParam(defaultValue = "20") Integer size, @RequestParam(defaultValue = "0") Integer page) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Iterable<Company> getCompanies(
+            @RequestParam(defaultValue = "20") Integer size,
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "id") String sort,
+            @RequestParam(defaultValue = "asc") String direction
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(direction), sort);
         return companyRepository.findAll(pageable);
     }
 
