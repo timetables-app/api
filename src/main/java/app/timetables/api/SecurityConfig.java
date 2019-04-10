@@ -3,7 +3,6 @@ package app.timetables.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,26 +17,50 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import app.timetables.api.community.service.TimetablesUserDetailService;
 import app.timetables.api.security.JwtAuthEntryPoint;
-import app.timetables.api.security.JwtAuthenticationFilter;
+import app.timetables.api.security.TokenAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	/**
+	 * Authentication white list for webpage elements.
+	 */
+	private static final String[] WEB_FILES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js"};
+	
+	/**
+	 * Authentication white list for utility endpoints.
+	 */
+	private static final String[] UTILS = {"/h2-console"};
+	
+	/**
+	 * Authentication white list for user lifecycle endpoints.
+	 */
+	private static final String[] USER_LIFECYCLE= {"/users/register", "/users/login"};
+	
 	@Autowired
 	TimetablesUserDetailService customUserDetailsService;
 
 	@Autowired
 	JwtAuthEntryPoint unauthorizedHandler;
 
+	/**
+	 * Password encoder. Uses BCrypt.
+	 * @return
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * Token authentication filer. Uses Jwt tokens.
+	 * @return
+	 */
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() {
-		return new JwtAuthenticationFilter();
+	public TokenAuthenticationFilter jwtAuthenticationFilter() {
+		return new TokenAuthenticationFilter();
 	}
 
 	@Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -51,18 +74,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html",
-						"/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/h2-console").permitAll()
-				.antMatchers("/users/register", "/users/login").permitAll()
-				.antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
-				.antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**").permitAll().anyRequest().authenticated();
+		http.cors().and()
+				.csrf().disable().exceptionHandling()
+				.authenticationEntryPoint(unauthorizedHandler).and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.authorizeRequests()
+				.antMatchers(WEB_FILES).permitAll()
+				.antMatchers(UTILS).permitAll()
+				.antMatchers(USER_LIFECYCLE).permitAll()
+				.anyRequest().authenticated();
 
-		// Add our custom JWT security filter
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}

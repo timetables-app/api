@@ -18,7 +18,7 @@ public class UserLoginRequestDTO {
 	/**
 	 * Username or email.
 	 */
-	private String loginOrEmail;
+	private String loginOrEmail; //TODO walidacja spacji itd.
 	
 	/**
 	 * Password

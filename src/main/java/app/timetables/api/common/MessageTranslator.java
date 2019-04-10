@@ -21,6 +21,14 @@ public class MessageTranslator {
 		} catch (NoSuchMessageException ex) {
 			return UNKNOWN;
 		}
-		
+	}
+	
+	public String translate(String msg, Object[] args) {
+		Locale locale = LocaleContextHolder.getLocale();
+		try {
+			return messageSource.getMessage(msg, args, locale);
+		} catch (NoSuchMessageException ex) {
+			return UNKNOWN;
+		}
 	}
 }

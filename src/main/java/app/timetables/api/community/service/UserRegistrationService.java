@@ -32,4 +32,22 @@ public class UserRegistrationService {
 		user = repository.save(user);
 		log.info("New user {}({}) with id {} registered", user.getLogin(), user.getEmail().getValue(), user.getId());
 	}
+	
+	/**
+	 * Checks if email address does not exists in the database.
+	 * @param email
+	 * @return
+	 */
+	public boolean emailAvailable(String email) {
+		return !repository.existsByEmailValue(email);
+	}
+	
+	/**
+	 * Checks if username does not exists in the database.
+	 * @param username
+	 * @return
+	 */
+	public boolean usernameAvailable(String username) {
+		return !repository.existsByLogin(username);
+	}
 }

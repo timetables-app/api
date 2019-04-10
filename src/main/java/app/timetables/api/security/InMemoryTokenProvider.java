@@ -49,7 +49,7 @@ public class InMemoryTokenProvider {
 		} catch (MalformedJwtException ex) {
 			log.error("Invalid JWT token");
 		} catch (ExpiredJwtException ex) {
-			log.error("Expired JWT token");
+			log.debug("Token for user {} has expired", ex.getClaims().getSubject());
 		} catch (UnsupportedJwtException ex) {
 			log.error("Unsupported JWT token");
 		} catch (IllegalArgumentException ex) {
