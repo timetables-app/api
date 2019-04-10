@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "security.jwt.secret",
+    "type": "java.lang.String",
+    "description": "JWT token secret"
+  },
+  {
+    "name": "security.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "JWT token expiration time in miliseconds"
+  }
+]}
