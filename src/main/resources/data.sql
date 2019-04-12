@@ -5,7 +5,8 @@ INSERT INTO Company (id, name, phone, founded, registered, approved) VALUES
     (null, 'Czwarta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
     (null, 'Piąta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0);
 
-INSERT INTO COUNTRY (ID, ISO, IS_OBSOLETE, ISO3, NAME) VALUES
+INSERT INTO COUNTRY (ID, ISO, IS_OBSOLETE, ISO3, NAME)
+VALUES
  (1, 'PL', false, 'POL', 'Poland'),
  (2, 'AD', false, 'AND', 'Andorra'),
  (3, 'AE', false, 'ARE', 'United Arab Emirates'),
@@ -104,3 +105,35 @@ VALUES (1, 75, false, 'Województwo Lubelskie', 1),
        (41,'AG', false, 'Kanton Aargau', 47),
        (42,'AR', false, 'Kanton Appenzell Ausserrhoden', 47),
        (43,'AI', false, 'Kanton Appenzell Innerrhoden', 47);
+
+INSERT INTO REGION (ID, CODE, IS_OBSOLETE, NAME, STATE_ID)
+VALUES (1, 2814, false, 'Powiat olsztyński', 16),
+       (2, 1201, false, 'Powiat bocheński', 2),
+       (3, 1202, false, 'Powiat brzeski', 2),
+       (4, 1203, false, 'Powiat chrzanowski', 2),
+       (5, 1204, false, 'Powiat dąbrowski', 2),
+       (6, 1205, false, 'Powiat gorlicki', 2),
+       (7, 1261, false, 'Kraków', 2),
+       (8, 1207, false, 'Powiat limanowski', 2),
+       (9, 1209, false, 'Powiat myślenicki', 2),
+       (10, 1262, false, 'Powiat nowosądecki', 2),
+       (11, 1211, false, 'Powiat nowotarski', 2),
+       (12, 1212, false, 'Powiat olkuski', 2),
+       (13, 1213, false, 'Powiat oświęcimski', 2),
+       (14, 1214, false, 'Powiat proszowicki', 2),
+       (15, 1215, false, 'Powiat suski', 2),
+       (16, 1263, false, 'Powiat tarnowski', 2),
+       (17, 1217, false, 'Powiat tatrzański', 2),
+       (18, 1218, false, 'Powiat wadowicki', 2),
+       (19, 1219, false, 'Powiat wielicki', 2),
+       (20, 1465, false, 'Warszawa', 3),
+       (21, 1061, false, 'powiat Łódzki Wschodni', 8),
+       (22, 1005, false, 'powiat Łowicki', 8),
+       (23, 0661, false, 'Biała Podlaska', 1),
+       (24, 0662, false, 'Chełm', 1),
+       (25, 0664, false, 'Zamość', 1),
+       (26, 0811, false, 'Powiat żarski', 9),
+       (27, 1601, false, 'Powiat brzeski', 10),
+       (28, 1606, false, 'Powiat namysłowski', 10),
+       (29, 1607, false, 'Powiat nyski', 10),
+       (30, 3008, false, 'Powiat kępiński', 13);

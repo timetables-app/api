@@ -5,11 +5,15 @@ import javax.persistence.*;
 @Entity
 public class Region extends Obsoletable {
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
     private State state;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String code;
+
+    Region() {
+    }
 
     public Region(State state, String name, String code) {
         this.state = state;
