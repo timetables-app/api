@@ -88,7 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(WEB_FILES).permitAll()
 				.antMatchers(UTILS).permitAll()
 				.antMatchers(USER_LIFECYCLE).permitAll()
-				.anyRequest().authenticated();
+				//.anyRequest().authenticated();
+				.anyRequest().permitAll();
 
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
