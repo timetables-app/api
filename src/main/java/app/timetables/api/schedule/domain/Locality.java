@@ -5,9 +5,13 @@ import javax.persistence.*;
 @Entity
 public class Locality extends Obsoletable {
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
     private Region region;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String name;
+
+    Locality() {
+    }
 
     public Locality(Region region, String name) {
         this.region = region;

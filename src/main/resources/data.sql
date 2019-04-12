@@ -136,4 +136,25 @@ VALUES (1, 2814, false, 'Powiat olsztyński', 16),
        (27, 1601, false, 'Powiat brzeski', 10),
        (28, 1606, false, 'Powiat namysłowski', 10),
        (29, 1607, false, 'Powiat nyski', 10),
-       (30, 3008, false, 'Powiat kępiński', 13);
+       (30, 3008, false, 'Powiat kępiński', 13),
+       (31, 1206, false, 'Powiat krakowski', 2);
+
+INSERT INTO LOCALITY (ID, IS_OBSOLETE, NAME, REGION_ID)
+VALUES (1, false, 'Kraków', 7),
+       (2, false, 'Jerzmanowice-Przeginia', 31),
+       (3, false, 'Sułoszowa', 31),
+       (4, false, 'Igołomia-Wawrzeńczyce', 31),
+       (5, false, 'Mogilany', 31),
+       (6, false, 'Michałowice', 31),
+       (7, false, 'Wielka Wieś', 31),
+       (8, false, 'Zielonki', 31),
+       (9, false, 'Zabierzów', 31),
+       (10, false, 'Czernichów', 31),
+       (11, false, 'Iwanowice', 31),
+       (12, false, 'Kocmyrzów-Luborzyca', 31),
+       (13, false, 'Liszki', 31),
+       (14, false, 'Skała', 31),
+       (15, false, 'Krzeszowice', 31),
+       (16, false, 'Świątniki Górne', 31),
+       (17, false, 'Słomniki', 31),
+       (19, false, 'Skawina', 31);
