@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class CoursePart {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class CoursePart extends EntityBase {
     @ManyToOne(optional = false)
     private Place source;
     @ManyToOne(optional = false)

@@ -1,7 +1,18 @@
 package app.timetables.api.schedule.domain;
 
-public interface Obsoletable {
-    Boolean isObsolete();
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
-    void setIsObsolete(Boolean isObsolete);
+@MappedSuperclass
+abstract class Obsoletable extends EntityBase {
+    @Column(nullable = false)
+    private Boolean isObsolete = false;
+
+    public Boolean getObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(Boolean obsolete) {
+        isObsolete = obsolete;
+    }
 }

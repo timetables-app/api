@@ -2,16 +2,9 @@ package app.timetables.api.schedule.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.Serializable;
 
 @Entity
-public class Country implements Obsoletable, Serializable {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class Country extends Obsoletable {
     @Column(nullable = false, updatable = false)
     private String iso;
 
@@ -21,8 +14,6 @@ public class Country implements Obsoletable, Serializable {
     @Column(nullable = false, updatable = false)
     private String iso3;
 
-    @Column(nullable = false)
-    private Boolean isObsolete = false;
 
     Country() {
     }
@@ -43,13 +34,5 @@ public class Country implements Obsoletable, Serializable {
 
     public String getIso3() {
         return iso3;
-    }
-
-    public Boolean isObsolete() {
-        return isObsolete;
-    }
-
-    public void setIsObsolete(Boolean isObsolete) {
-        this.isObsolete = isObsolete;
     }
 }

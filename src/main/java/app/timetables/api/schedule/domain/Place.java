@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Place implements Obsoletable {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Place extends Obsoletable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PlaceType type;
@@ -28,8 +25,6 @@ public class Place implements Obsoletable {
     private Place isVariantOf;
     @Column(nullable = false)
     private Integer capacity;
-    @Column(nullable = false)
-    private Boolean isObsolete;
 
     public Place(PlaceType type, Double lat, Double lng, Locality locality, Set<Amenity> amenities, String name, String explanation, Place isVariantOf, Integer capacity) {
         this.type = type;
@@ -77,13 +72,5 @@ public class Place implements Obsoletable {
 
     public Integer getCapacity() {
         return capacity;
-    }
-
-    public Boolean isObsolete() {
-        return isObsolete;
-    }
-
-    public void setIsObsolete(Boolean obsolete) {
-        isObsolete = obsolete;
     }
 }

@@ -6,10 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Timetable {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Timetable extends EntityBase {
     @Column(nullable = false)
     private Date validFrom;
     @Column(nullable = false)

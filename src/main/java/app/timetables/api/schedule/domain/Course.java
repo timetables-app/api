@@ -1,15 +1,10 @@
 package app.timetables.api.schedule.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Course {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Course extends EntityBase {
     @ManyToOne(optional = false)
     private Timetable timetable;
     @ManyToOne(optional = false)

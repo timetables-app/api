@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Line {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Line extends EntityBase {
     @Column(nullable = false)
     private String number;
     @Column(nullable = false)

@@ -6,10 +6,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Vehicle {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Vehicle extends EntityBase {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private VehicleType type;
