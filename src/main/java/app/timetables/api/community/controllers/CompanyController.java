@@ -2,14 +2,11 @@ package app.timetables.api.community.controllers;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.community.repository.CompanyRepository;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,6 +15,12 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping("/companies")
 public class CompanyController {
+
+    private static final String DEFAULT_PAGE_SIZE = "20";
+
+    private static final String DEFAULT_PAGE_NUMBER = "0";
+
+    private static final String DEFAULT_SORT = "id,asc";
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -29,9 +32,9 @@ public class CompanyController {
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<Iterable<Company>> getCompanies(
-            @RequestParam(defaultValue = "20") Integer size,
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "id,asc") String sort
+            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+            @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(defaultValue = DEFAULT_SORT) String sort
     ) {
         String[] sortData = sort.split(",");
         if (sortData.length != 2) {
