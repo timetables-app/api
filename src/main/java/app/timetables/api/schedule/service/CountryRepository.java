@@ -18,6 +18,8 @@ interface CountryRepository extends PagingAndSortingRepository<Country, Long> {
     @Override
     void delete(Country entity);
 
-    @Query("select c from Country c where c.name like :q%")
+    @Query("select c from Country c where lower(c.name) like concat(lower(:q), '%')" +
+            "or lower(c.iso) like concat(lower(:q), '%')" +
+            "or lower(c.iso3) like concat(lower(:q), '%')")
     Page<Country> q(@Param("q") String q, Pageable pageable);
 }
