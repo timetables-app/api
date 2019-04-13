@@ -1,6 +1,8 @@
 package app.timetables.api.schedule.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity

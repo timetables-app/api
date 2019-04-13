@@ -9,13 +9,10 @@ public class Course extends EntityBase {
     private Timetable timetable;
     @ManyToOne(optional = false)
     private Line line;
-    @ManyToOne(optional = false)
-    private Vehicle supportedVehicle;
 
-    public Course(Timetable timetable, Line line, Vehicle supportedVehicle) {
+    public Course(Timetable timetable, Line line) {
         this.timetable = timetable;
         this.line = line;
-        this.supportedVehicle = supportedVehicle;
     }
 
     public Timetable getTimetable() {
@@ -24,9 +21,5 @@ public class Course extends EntityBase {
 
     public Line getLine() {
         return line;
-    }
-
-    public Vehicle getSupportedVehicle() {
-        return supportedVehicle;
     }
 }
