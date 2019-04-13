@@ -158,3 +158,10 @@ VALUES (1, false, 'Kraków', 7),
        (16, false, 'Świątniki Górne', 31),
        (17, false, 'Słomniki', 31),
        (19, false, 'Skawina', 31);
+
+INSERT INTO PLACE (ID, CAPACITY, EXPLANATION, IS_OBSOLETE, LAT, LNG, NAME, IS_VARIANT_OF_ID, LOCALITY_ID)
+VALUES (1, 5, '', false, 50.0642364, 19.9221641, 'AGH/UR', null, 1),
+       (2, 5, '', false, 50.0664265, 19.9231297, 'Plac Inwalidów', null, 1),
+       (3, 5, '', false, 50.0618259, 19.9231297, 'Muzeum Narodowe', null, 1),
+       (4, 5, '', false, 50.0709027, 19.9297816, 'Nowy Kleparz', null, 1),
+       (6, 5, '', false, 50.0685752, 19.9405319, 'Kraków MDA', null, 1);

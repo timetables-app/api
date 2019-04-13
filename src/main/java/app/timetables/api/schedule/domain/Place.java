@@ -4,20 +4,25 @@ import javax.persistence.*;
 
 @Entity
 public class Place extends Obsoletable {
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Double lat;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Double lng;
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
     private Locality locality;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String explanation;
     @ManyToOne
+    @JoinColumn(updatable = false)
     private Place isVariantOf;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer capacity;
+
+    Place() {
+    }
 
     public Place(Double lat, Double lng, Locality locality, String name, String explanation, Place isVariantOf, Integer capacity) {
         this.lat = lat;
