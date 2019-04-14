@@ -1,4 +1,4 @@
-package app.timetables.api.community.repository;
+package app.timetables.api.search.criteria;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
