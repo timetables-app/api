@@ -17,7 +17,7 @@ public class CompanySpecification implements Specification<Company> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Company> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+    public Predicate toPredicate(Root<Company> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+        return builder.like(builder.lower(root.get(criteria.getKey())), builder.lower(builder.literal("%" + criteria.getValue() + "%")));
     }
 }

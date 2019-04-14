@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanySearch implements CompanySearchInterface {
 
+    private final CompanyRepository companyRepository;
+
     private Integer size = DEFAULT_PAGE_SIZE;
 
     private Integer page = DEFAULT_PAGE_NUMBER;
@@ -24,33 +26,54 @@ public class CompanySearch implements CompanySearchInterface {
 
     private String query;
 
+
     @Autowired
-    private CompanyRepository companyRepository;
+    public CompanySearch(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
 
     @Override
-    public void size(Integer size) {
+    public CompanySearchInterface size(Integer size) {
         this.size = size;
+
+        return this;
     }
 
     @Override
-    public void page(Integer page) {
+    public CompanySearchInterface page(Integer page) {
         this.page = page;
+
+        return this;
     }
 
     @Override
-    public void sort(String column, String direction) {
+    public CompanySearchInterface sort(String order) {
+        String[] sortData = order.split(",");
+        if (sortData.length == 2) {
+            sort(sortData[0], sortData[1]);
+        }
+
+        return this;
+    }
+
+    @Override
+    public CompanySearchInterface sort(String column, String direction) {
         this.sortColumn = column;
         this.sortDirection = direction;
+
+        return this;
     }
 
     @Override
-    public void search(String query) {
+    public CompanySearchInterface query(String query) {
         this.query = query;
+
+        return this;
     }
 
     @Override
     public Page<Company> search() {
-        if (query.isEmpty()) {
+        if (query == null || query.isEmpty()) {
             return companyRepository.findAll(createPageRequest());
         }
 

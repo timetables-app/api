@@ -2,7 +2,6 @@ package app.timetables.api.community.service;
 
 import app.timetables.api.community.domain.Company;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
 
 public interface CompanySearchInterface {
 
@@ -14,13 +13,15 @@ public interface CompanySearchInterface {
 
     public static final String DEFAULT_SORT_DIRECTION = "asc";
 
-    public void size(Integer size);
+    public CompanySearchInterface size(Integer size);
 
-    public void page(Integer page);
+    public CompanySearchInterface page(Integer page);
 
-    public void sort(String column, String direction);
+    public CompanySearchInterface sort(String order);
 
-    public void search(String query);
+    public CompanySearchInterface sort(String column, String direction);
+
+    public CompanySearchInterface query(String query);
 
     public Page<Company> search();
 }

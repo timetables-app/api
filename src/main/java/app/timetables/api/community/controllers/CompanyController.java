@@ -2,6 +2,8 @@ package app.timetables.api.community.controllers;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.community.repository.CompanyRepository;
+import app.timetables.api.community.service.CompanySearch;
+import app.timetables.api.community.service.CompanySearchInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,9 @@ public class CompanyController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private CompanySearchInterface companySearch;
+
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Company> getCompany(@PathVariable Long id) {
         return ResponseEntity.of(companyRepository.findById(id));
@@ -36,13 +41,26 @@ public class CompanyController {
             @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
             @RequestParam(defaultValue = DEFAULT_SORT) String sort
     ) {
-        String[] sortData = sort.split(",");
-        if (sortData.length != 2) {
-            return ResponseEntity.of(Optional.empty());
-        }
+        companySearch.size(size)
+                .page(page)
+                .sort(sort);
 
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.fromString(sortData[1]), sortData[0]);
-        return ResponseEntity.of(Optional.of(companyRepository.findAll(pageable)));
+        return ResponseEntity.of(Optional.of(companySearch.search()));
+    }
+
+    @GetMapping(value = "/search/q", produces = "application/json")
+    public ResponseEntity<Iterable<Company>> getCompanies(
+            @RequestParam(required = true, name = "q") String query,
+            @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+            @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
+            @RequestParam(defaultValue = DEFAULT_SORT) String sort
+    ) {
+        companySearch.size(size)
+                .page(page)
+                .sort(sort)
+                .query(query);
+
+        return ResponseEntity.of(Optional.of(companySearch.search()));
     }
 
     @PostMapping(value = "/approve/{id}", produces = "application/json")
