@@ -1,64 +1,46 @@
 package app.timetables.api.schedule.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Place extends Obsoletable {
     @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Double lat;
+
     @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Double lng;
+
     @ManyToOne(optional = false)
     @JoinColumn(updatable = false)
+    @Getter
+    @NonNull
     private Locality locality;
+
     @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private String name;
+
     @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private String explanation;
+
     @ManyToOne
     @JoinColumn(updatable = false)
-    private Place isVariantOf;
+    @Getter
+    private Place variantOf;
+
     @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Integer capacity;
-
-    Place() {
-    }
-
-    public Place(Double lat, Double lng, Locality locality, String name, String explanation, Place isVariantOf, Integer capacity) {
-        this.lat = lat;
-        this.lng = lng;
-        this.locality = locality;
-        this.name = name;
-        this.explanation = explanation;
-        this.isVariantOf = isVariantOf;
-        this.capacity = capacity;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public Locality getLocality() {
-        return locality;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public Place getIsVariantOf() {
-        return isVariantOf;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
 }

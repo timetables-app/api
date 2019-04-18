@@ -1,28 +1,24 @@
 package app.timetables.api.schedule.domain;
 
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class Line extends EntityBase {
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    @Getter
     private String number;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
+    @NonNull
+    @Getter
     private VehicleType vehicleType;
-
-    public Line(String number, VehicleType vehicleType) {
-        this.number = number;
-        this.vehicleType = vehicleType;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public VehicleType getVehicleType() {
-        return vehicleType;
-    }
 }
