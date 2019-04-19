@@ -3,7 +3,7 @@ package app.timetables.api.community.repository;
 import static org.junit.Assert.assertEquals;
 
 import app.timetables.api.MainApp;
-import app.timetables.api.community.service.CompanySearch;
+import app.timetables.api.search.community.service.CompanySearch;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

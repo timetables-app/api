@@ -1,6 +1,7 @@
 package app.timetables.api.search.criteria.service;
 
 import app.timetables.api.search.criteria.repository.SearchableRepository;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -59,6 +60,10 @@ public abstract class Search<T, ID> implements SearchInterface<T> {
         this.query = query;
 
         return this;
+    }
+
+    public Optional<T> getById(ID id) {
+        return getRepository().findById(id);
     }
 
     @Override

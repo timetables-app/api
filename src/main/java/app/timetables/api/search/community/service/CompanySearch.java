@@ -1,4 +1,4 @@
-package app.timetables.api.community.service;
+package app.timetables.api.search.community.service;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.community.repository.CompanyRepository;
