@@ -68,11 +68,11 @@ public abstract class Search<T, ID> implements SearchInterface<T> {
 
     @Override
     public Page<T> search() {
-        if (query == null || query.isEmpty()) {
-            return getRepository().findAll(createPageRequest());
-        }
-
-        return getRepository().findAll(createSpecification(), createPageRequest());
+        return getRepository()
+            .findAll(
+                (query == null || query.isEmpty()) ? null : createSpecification(),
+                createPageRequest()
+            );
     }
 
     private PageRequest createPageRequest() {

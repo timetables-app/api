@@ -8,13 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/companies")
 public class CompanySearchController {
 
     private static final String DEFAULT_PAGE_SIZE = "20";
@@ -26,12 +24,25 @@ public class CompanySearchController {
     @Autowired
     private CompanySearch companySearch;
 
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/companies/{id}")
     public ResponseEntity<Company> getById(@PathVariable Long id) {
         return ResponseEntity.of(companySearch.getById(id));
     }
 
-    @GetMapping(value = {"/companies", "/search/q"}, produces = "application/json")
+    @GetMapping(value = "/companies", produces = "application/json")
+    public ResponseEntity<Iterable<Company>> getCompanies(
+        @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer size,
+        @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
+        @RequestParam(defaultValue = DEFAULT_SORT) String sort
+    ) {
+        companySearch.size(size)
+            .page(page)
+            .sort(sort);
+
+        return ResponseEntity.of(Optional.of(companySearch.search()));
+    }
+
+    @GetMapping(value = "/companies/search/q", produces = "application/json")
     public ResponseEntity<Iterable<Company>> search(
         @RequestParam(defaultValue = "", name = "q") String query,
         @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) Integer size,

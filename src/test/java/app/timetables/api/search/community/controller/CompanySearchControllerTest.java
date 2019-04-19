@@ -40,8 +40,8 @@ public class CompanySearchControllerTest {
     public void getCompanies() throws Exception {
         mockMvc.perform(get("/companies/?size=2&page=1&sort=id&direction=desc"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$._embedded.companies.length()", is(2)))
-            .andExpect(jsonPath("$.page.number", is(1)));
+            .andExpect(jsonPath("$.content.length()", is(2)))
+            .andExpect(jsonPath("$.pageable.pageNumber", is(1)));
     }
 
 }
