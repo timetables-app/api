@@ -5,7 +5,7 @@ INSERT INTO Company (id, name, phone, founded, registered, approved) VALUES
     (4, 'Czwarta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
     (5, 'Piąta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0);
 
-INSERT INTO COUNTRY (ID, ISO, IS_OBSOLETE, ISO3, NAME)
+INSERT INTO COUNTRY (ID, ISO, OBSOLETE, ISO3, NAME)
 VALUES
  (1, 'PL', false, 'POL', 'Poland'),
  (2, 'AD', false, 'AND', 'Andorra'),
@@ -61,7 +61,7 @@ VALUES
  (56, 'CU', false, 'CUB', 'Cuba'),
  (57, 'CV', false, 'CPV', 'Cape Verde');
 
-INSERT INTO STATE (ID, CODE, IS_OBSOLETE, NAME, COUNTRY_ID)
+INSERT INTO STATE (ID, CODE, OBSOLETE, NAME, COUNTRY_ID)
 VALUES (1, 75, false, 'Województwo Lubelskie', 1),
        (2, 77, false, 'Województwo Małopolskie', 1),
        (3, 78, false, 'Województwo Mazowieckie', 1),
@@ -106,7 +106,7 @@ VALUES (1, 75, false, 'Województwo Lubelskie', 1),
        (42,'AR', false, 'Kanton Appenzell Ausserrhoden', 47),
        (43,'AI', false, 'Kanton Appenzell Innerrhoden', 47);
 
-INSERT INTO REGION (ID, CODE, IS_OBSOLETE, NAME, STATE_ID)
+INSERT INTO REGION (ID, CODE, OBSOLETE, NAME, STATE_ID)
 VALUES (1, 2814, false, 'Powiat olsztyński', 16),
        (2, 1201, false, 'Powiat bocheński', 2),
        (3, 1202, false, 'Powiat brzeski', 2),
@@ -139,7 +139,7 @@ VALUES (1, 2814, false, 'Powiat olsztyński', 16),
        (30, 3008, false, 'Powiat kępiński', 13),
        (31, 1206, false, 'Powiat krakowski', 2);
 
-INSERT INTO LOCALITY (ID, IS_OBSOLETE, NAME, REGION_ID)
+INSERT INTO LOCALITY (ID, OBSOLETE, NAME, REGION_ID)
 VALUES (1, false, 'Kraków', 7),
        (2, false, 'Jerzmanowice-Przeginia', 31),
        (3, false, 'Sułoszowa', 31),
@@ -159,7 +159,7 @@ VALUES (1, false, 'Kraków', 7),
        (17, false, 'Słomniki', 31),
        (19, false, 'Skawina', 31);
 
-INSERT INTO PLACE (ID, CAPACITY, EXPLANATION, IS_OBSOLETE, LAT, LNG, NAME, IS_VARIANT_OF_ID, LOCALITY_ID)
+INSERT INTO PLACE (ID, CAPACITY, EXPLANATION, OBSOLETE, LAT, LNG, NAME, VARIANT_OF_ID, LOCALITY_ID)
 VALUES (1, 5, '', false, 50.0642364, 19.9221641, 'AGH/UR', null, 1),
        (2, 5, '', false, 50.0664265, 19.9231297, 'Plac Inwalidów', null, 1),
        (3, 5, '', false, 50.0618259, 19.9231297, 'Muzeum Narodowe', null, 1),
@@ -189,23 +189,23 @@ VALUES (1, 1, 1),
        (8, 3, 4),
        (9, 3, 5);
 
-INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, IS_DESTINATION_ON_DEMAND)
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
 VALUES (null, PARSEDATETIME('7:00', 'HH:mm'), PARSEDATETIME('7:15', 'HH:mm'),  1, 2, 1, 1),
        (null, PARSEDATETIME('7:15', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  2, 3, 1, 1),
        (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 4, 1, 1),
        (null, PARSEDATETIME('7:35', 'HH:mm'), PARSEDATETIME('7:40', 'HH:mm'),  4, 5, 1, 1);
 
-INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, IS_DESTINATION_ON_DEMAND)
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
 VALUES (null, PARSEDATETIME('7:20', 'HH:mm'), PARSEDATETIME('7:25', 'HH:mm'),  5, 4, 2, 1),
        (null, PARSEDATETIME('7:25', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  4, 3, 2, 1),
        (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 2, 2, 1);
 
-INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, IS_DESTINATION_ON_DEMAND)
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
 VALUES (null, PARSEDATETIME('7:20', 'HH:mm'), PARSEDATETIME('7:25', 'HH:mm'),  5, 4, 3, 1),
        (null, PARSEDATETIME('7:25', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  4, 3, 3, 1),
        (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 2, 3, 1);
 
-INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, IS_DESTINATION_ON_DEMAND)
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
 VALUES (null, PARSEDATETIME('18:20', 'HH:mm'),  PARSEDATETIME('19:25', 'HH:mm'),  2, 4, 4, 1),
        (null, PARSEDATETIME('19:25', 'HH:mm'),  PARSEDATETIME('19:48', 'HH:mm'),  4, 1, 4, 1),
        (null, PARSEDATETIME('19:48', 'HH:mm'),  PARSEDATETIME('19:55', 'HH:mm'),  1, 5, 4, 1),
