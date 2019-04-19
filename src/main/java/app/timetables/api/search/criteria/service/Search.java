@@ -1,11 +1,12 @@
 package app.timetables.api.search.criteria.service;
 
-import app.timetables.api.search.criteria.repository.SearchableRepository;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 public abstract class Search<T, ID> implements SearchInterface<T> {
 
@@ -17,11 +18,11 @@ public abstract class Search<T, ID> implements SearchInterface<T> {
 
     private String sortDirection = DEFAULT_SORT_DIRECTION;
 
-    protected String query;
+    protected Specification<T> specification;
 
-    protected abstract Specification<T> createSpecification();
+    protected abstract PagingAndSortingRepository<T, ID> getRepository();
 
-    protected abstract SearchableRepository<T, ID> getRepository();
+    protected abstract JpaSpecificationExecutor<T> getSpecificationRepository();
 
     @Override
     public SearchInterface size(Integer size) {
@@ -55,24 +56,17 @@ public abstract class Search<T, ID> implements SearchInterface<T> {
         return this;
     }
 
-    @Override
-    public SearchInterface query(String query) {
-        this.query = query;
-
-        return this;
-    }
-
     public Optional<T> getById(ID id) {
         return getRepository().findById(id);
     }
 
     @Override
     public Page<T> search() {
-        if (query == null || query.isEmpty()) {
-            return getRepository().findAll(null, createPageRequest());
+        if (specification == null) {
+            return getRepository().findAll(createPageRequest());
         }
 
-        return getRepository().findAll(createSpecification(), createPageRequest());
+        return getSpecificationRepository().findAll(specification, createPageRequest());
     }
 
     private PageRequest createPageRequest() {

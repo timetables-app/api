@@ -4,6 +4,7 @@ import app.timetables.api.schedule.domain.Place;
 import app.timetables.api.schedule.domain.PlaceProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RepositoryRestResource(excerptProjection = PlaceProjection.class)
 @CrossOrigin
-interface PlaceRepository extends PagingAndSortingRepository<Place, Long> {
+public interface PlaceRepository extends PagingAndSortingRepository<Place, Long>, JpaSpecificationExecutor<Place> {
 
     @RestResource(exported = false)
     @Override

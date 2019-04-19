@@ -18,12 +18,9 @@ public interface SearchInterface<T> {
 
     SearchInterface sort(String order);
 
-    SearchInterface sort(
-        String column,
-        String direction
-    );
+    SearchInterface sort(String column, String direction);
 
-    SearchInterface query(String query);
+    SearchInterface specificationFor(Object searchQuery);
 
     Page<T> search();
 }

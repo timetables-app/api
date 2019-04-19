@@ -1,7 +1,8 @@
-package app.timetables.api.search.community.controller;
+package app.timetables.api.search.community.company.controller;
 
 import app.timetables.api.community.domain.Company;
-import app.timetables.api.search.community.service.CompanySearch;
+import app.timetables.api.search.community.company.CompanySearchQuery;
+import app.timetables.api.search.community.company.service.CompanySearch;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,10 +50,14 @@ public class CompanySearchController {
         @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
         @RequestParam(defaultValue = DEFAULT_SORT) String sort
     ) {
+        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
+        companySearchQuery.setName(query);
+        companySearchQuery.setPhone(query);
+
         companySearch.size(size)
             .page(page)
             .sort(sort)
-            .query(query);
+            .specificationFor(companySearchQuery);
 
         return ResponseEntity.of(Optional.of(companySearch.search()));
     }
