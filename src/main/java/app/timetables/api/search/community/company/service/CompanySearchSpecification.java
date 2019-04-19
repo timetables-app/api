@@ -22,9 +22,16 @@ public class CompanySearchSpecification implements Specification<Company> {
         CriteriaQuery<?> query,
         CriteriaBuilder builder
     ) {
-        return builder.like(
+        if (criteria.getOperation().equals("like")) {
+            return builder.like(
+                builder.lower(root.get(criteria.getKey())),
+                builder.lower(builder.literal("%" + criteria.getValue() + "%"))
+            );
+        }
+
+        return builder.equal(
             builder.lower(root.get(criteria.getKey())),
-            builder.lower(builder.literal("%" + criteria.getValue() + "%"))
+            builder.lower(root.get((String) criteria.getValue()))
         );
     }
 }
