@@ -3,7 +3,8 @@ package app.timetables.api.community.repository;
 import static org.junit.Assert.assertEquals;
 
 import app.timetables.api.MainApp;
-import app.timetables.api.community.service.CompanySearch;
+import app.timetables.api.search.community.company.CompanySearchQuery;
+import app.timetables.api.search.community.company.service.CompanySearch;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,18 +30,26 @@ public class CompanySearchTest {
 
     @Test
     public void testSearchingCompanyByCustomField() {
+        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
+        companySearchQuery.setName("Pierwsza firma - test");
+        companySearchQuery.setPhone("Pierwsza firma - test");
+
         companySearch.page(0)
             .size(20)
-            .query("Pierwsza firma - test");
+            .specificationFor(companySearchQuery);
 
         assertEquals(1, companySearch.search().getTotalElements());
     }
 
     @Test
     public void testSearchingCompanyWithQuery() {
+        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
+        companySearchQuery.setName("test");
+        companySearchQuery.setPhone("test");
+
         companySearch.page(0)
             .size(20)
-            .query("test");
+            .specificationFor(companySearchQuery);
 
         assertEquals(5, companySearch.search().getTotalElements());
     }

@@ -1,9 +1,9 @@
 INSERT INTO Company (id, name, phone, founded, registered, approved) VALUES
-    (null, 'Pierwsza firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
-    (null, 'Druga firma', '999 999 999', '2012-12-12', '2019-03-01 12:20:12', 0),
-    (null, 'Trzecia firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
-    (null, 'Czwarta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
-    (null, 'Piąta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0);
+    (1, 'Pierwsza firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
+    (2, 'Druga firma', '999 999 999', '2012-12-12', '2019-03-01 12:20:12', 0),
+    (3, 'Trzecia firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
+    (4, 'Czwarta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0),
+    (5, 'Piąta firma', '123 123 123', '2012-12-12', '2019-03-01 12:20:12', 0);
 
 INSERT INTO COUNTRY (ID, ISO, OBSOLETE, ISO3, NAME)
 VALUES
@@ -78,7 +78,7 @@ VALUES (1, 75, false, 'Województwo Lubelskie', 1),
        (14, 87, false, 'Województwo Zachodniopomorskie', 1),
        (15, 73, false, 'Województwo Kujawsko-Pomorskie', 1),
        (16, 85, false, 'Województwo Warmińsko-Mazurskie', 1),
-       
+
        (17,'SZ', false, 'Kanton Schwyz', 47),
        (18,'VS', false, 'Canton du Valais', 47),
        (19,'UR', false, 'Kanton Uri', 47),
@@ -164,4 +164,49 @@ VALUES (1, 5, '', false, 50.0642364, 19.9221641, 'AGH/UR', null, 1),
        (2, 5, '', false, 50.0664265, 19.9231297, 'Plac Inwalidów', null, 1),
        (3, 5, '', false, 50.0618259, 19.9231297, 'Muzeum Narodowe', null, 1),
        (4, 5, '', false, 50.0709027, 19.9297816, 'Nowy Kleparz', null, 1),
-       (6, 5, '', false, 50.0685752, 19.9405319, 'Kraków MDA', null, 1);
+       (5, 5, '', false, 50.0685752, 19.9405319, 'Kraków MDA', null, 1);
+
+INSERT INTO LINE (ID, NUMBER, VEHICLE_TYPE)
+VALUES (1, 1, 'Tramwaj'),
+       (2, 2, 'Tramwaj'),
+       (3, 3, 'Autobus');
+
+INSERT INTO TIMETABLE (ID, VALID_FROM, VALID_UNTIL, SUPPORTED_COMPANY_ID)
+VALUES (1, '2019-04-01', '2019-06-01', 1,),
+       (2, '2019-04-01', '2019-06-01', 1,),
+       (3, '2019-04-01', '2019-06-01', 2,),
+       (4, '2019-04-01', '2019-06-01', 2,),
+       (5, '2019-04-01', '2019-06-01', 3,);
+
+INSERT INTO COURSE (ID, LINE_ID, TIMETABLE_ID)
+VALUES (1, 1, 1),
+       (2, 1, 1),
+       (3, 1, 2),
+       (4, 2, 2),
+       (5, 2, 2),
+       (6, 2, 3),
+       (7, 3, 3),
+       (8, 3, 4),
+       (9, 3, 5);
+
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
+VALUES (null, PARSEDATETIME('7:00', 'HH:mm'), PARSEDATETIME('7:15', 'HH:mm'),  1, 2, 1, 1),
+       (null, PARSEDATETIME('7:15', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  2, 3, 1, 1),
+       (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 4, 1, 1),
+       (null, PARSEDATETIME('7:35', 'HH:mm'), PARSEDATETIME('7:40', 'HH:mm'),  4, 5, 1, 1);
+
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
+VALUES (null, PARSEDATETIME('7:20', 'HH:mm'), PARSEDATETIME('7:25', 'HH:mm'),  5, 4, 2, 1),
+       (null, PARSEDATETIME('7:25', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  4, 3, 2, 1),
+       (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 2, 2, 1);
+
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
+VALUES (null, PARSEDATETIME('7:20', 'HH:mm'), PARSEDATETIME('7:25', 'HH:mm'),  5, 4, 3, 1),
+       (null, PARSEDATETIME('7:25', 'HH:mm'), PARSEDATETIME('7:28', 'HH:mm'),  4, 3, 3, 1),
+       (null, PARSEDATETIME('7:28', 'HH:mm'), PARSEDATETIME('7:35', 'HH:mm'),  3, 2, 3, 1);
+
+INSERT INTO COURSE_PART (ID, SOURCE_TIME, DESTINATION_TIME, SOURCE_ID, DESTINATION_ID, COURSE_ID, DESTINATION_ON_DEMAND)
+VALUES (null, PARSEDATETIME('18:20', 'HH:mm'),  PARSEDATETIME('19:25', 'HH:mm'),  2, 4, 4, 1),
+       (null, PARSEDATETIME('19:25', 'HH:mm'),  PARSEDATETIME('19:48', 'HH:mm'),  4, 1, 4, 1),
+       (null, PARSEDATETIME('19:48', 'HH:mm'),  PARSEDATETIME('19:55', 'HH:mm'),  1, 5, 4, 1),
+       (null, PARSEDATETIME('19:55', 'HH:mm'),  PARSEDATETIME('20:20', 'HH:mm'),  5, 3, 4, 1);

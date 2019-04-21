@@ -1,12 +1,15 @@
 package app.timetables.api.schedule.domain;
 
-import lombok.*;
-
+import java.time.LocalTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,12 +30,12 @@ public class CoursePart extends EntityBase {
     @Column(nullable = false, updatable = false)
     @NonNull
     @Getter
-    private Date sourceTime;
+    private LocalTime sourceTime;
 
     @Column(nullable = false, updatable = false)
     @NonNull
     @Getter
-    private Date destinationTime;
+    private LocalTime destinationTime;
 
     @Column(nullable = false, updatable = false)
     @NonNull

@@ -1,13 +1,12 @@
-package app.timetables.api.community.service;
+package app.timetables.api.search.community.company.service;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.search.criteria.SearchCriteria;
-import org.springframework.data.jpa.domain.Specification;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.springframework.data.jpa.domain.Specification;
 
 public class CompanySearchSpecification implements Specification<Company> {
 
@@ -23,9 +22,16 @@ public class CompanySearchSpecification implements Specification<Company> {
         CriteriaQuery<?> query,
         CriteriaBuilder builder
     ) {
-        return builder.like(
+        if (criteria.getOperation().equals("like")) {
+            return builder.like(
+                builder.lower(root.get(criteria.getKey())),
+                builder.lower(builder.literal("%" + criteria.getValue() + "%"))
+            );
+        }
+
+        return builder.equal(
             builder.lower(root.get(criteria.getKey())),
-            builder.lower(builder.literal("%" + criteria.getValue() + "%"))
+            builder.lower(root.get((String) criteria.getValue()))
         );
     }
 }

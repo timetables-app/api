@@ -1,5 +1,6 @@
 package app.timetables.api.schedule.domain;
 
+import javax.persistence.GenerationType;
 import lombok.Getter;
 
 import javax.persistence.GeneratedValue;
@@ -9,8 +10,9 @@ import java.io.Serializable;
 
 @MappedSuperclass
 abstract class EntityBase implements Serializable {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
 }
