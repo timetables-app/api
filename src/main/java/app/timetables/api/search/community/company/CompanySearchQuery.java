@@ -1,12 +1,14 @@
 package app.timetables.api.search.community.company;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class CompanySearchQuery {
 
-    private String name;
+    private final String name;
 
-    private String phone;
+    private final String phone;
 
 }
