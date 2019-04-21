@@ -32,7 +32,7 @@ public class Place extends Obsoletable {
     @Column(nullable = false, updatable = false)
     @Getter
     @NonNull
-    private String explanation;
+    private String explanation = "";
 
     @ManyToOne
     @JoinColumn(updatable = false)
