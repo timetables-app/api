@@ -1,6 +1,6 @@
 package app.timetables.api.community.repository;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import app.timetables.api.MainApp;
 import app.timetables.api.search.community.company.CompanySearchQuery;

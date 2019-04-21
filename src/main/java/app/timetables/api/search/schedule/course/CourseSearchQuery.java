@@ -12,8 +12,8 @@ public class CourseSearchQuery {
 
     private final Long endPlace;
 
-    private final LocalDateTime fromDate;
+    private LocalDateTime fromDate;
 
-    private final LocalDateTime toDate;
+    private LocalDateTime toDate;
 
 }
