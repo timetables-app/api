@@ -18,7 +18,7 @@ public class OneTimetableWithOneCourse {
 
     private static final Map<Long, Place> places = new HashMap<>();
 
-    public static List<CoursePart> getCourseParts() throws NoSuchFieldException {
+    public static List<CoursePart> get() throws NoSuchFieldException {
         Timetable timetableMock = Mockito.mock(Timetable.class);
         ReflectionTestUtils.setField(timetableMock, "id", 1L);
 

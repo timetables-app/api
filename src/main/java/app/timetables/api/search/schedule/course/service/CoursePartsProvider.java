@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CoursePartsProvider {
+public class CoursePartsProvider implements CoursePartsProviderInterface {
 
     public List<CoursePart> get() {
         return null;

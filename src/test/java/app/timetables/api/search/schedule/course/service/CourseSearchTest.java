@@ -6,6 +6,7 @@ import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.dataprovider.OneTimetableWithOneCourse;
+import app.timetables.api.search.schedule.course.service.graph.GraphBuilderInterface;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.Before;
@@ -20,15 +21,17 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class CourseSearchTest {
 
     @Mock
-    private CoursePartsProvider coursePartsProvider;
+    private CoursePartsProviderInterface coursePartsProvider;
+
+    @Mock
+    private GraphBuilderInterface graphBuilder;
 
     @InjectMocks
     private CourseSearch courseSearch;
 
     @Before
     public void setUp() throws Exception {
-        List<CoursePart> coursePartList = OneTimetableWithOneCourse.getCourseParts();
-        Mockito.when(coursePartsProvider.get()).thenReturn(OneTimetableWithOneCourse.getCourseParts());
+        Mockito.when(coursePartsProvider.get()).thenReturn(OneTimetableWithOneCourse.get());
     }
 
     @Test
