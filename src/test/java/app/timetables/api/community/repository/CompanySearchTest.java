@@ -30,9 +30,8 @@ public class CompanySearchTest {
 
     @Test
     public void testSearchingCompanyByCustomField() {
-        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
-        companySearchQuery.setName("Pierwsza firma - test");
-        companySearchQuery.setPhone("Pierwsza firma - test");
+        String query = "Pierwsza firma - test";
+        CompanySearchQuery companySearchQuery = new CompanySearchQuery(query, query);
 
         companySearch.page(0)
             .size(20)
@@ -43,9 +42,8 @@ public class CompanySearchTest {
 
     @Test
     public void testSearchingCompanyWithQuery() {
-        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
-        companySearchQuery.setName("test");
-        companySearchQuery.setPhone("test");
+        String query = "test";
+        CompanySearchQuery companySearchQuery = new CompanySearchQuery(query, query);
 
         companySearch.page(0)
             .size(20)

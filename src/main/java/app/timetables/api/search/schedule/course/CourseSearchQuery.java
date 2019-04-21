@@ -1,6 +1,6 @@
 package app.timetables.api.search.schedule.course;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -12,8 +12,8 @@ public class CourseSearchQuery {
 
     private final Long endPlace;
 
-    private final LocalTime fromTime;
+    private final LocalDateTime fromDate;
 
-    private final LocalTime toTime;
+    private final LocalDateTime toDate;
 
 }
