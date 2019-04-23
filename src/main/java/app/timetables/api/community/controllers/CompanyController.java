@@ -2,33 +2,22 @@ package app.timetables.api.community.controllers;
 
 import app.timetables.api.community.domain.Company;
 import app.timetables.api.community.repository.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
 @RestController
-@RequestMapping("/companies")
+@CrossOrigin
+@RequestMapping("/company")
 public class CompanyController {
 
     @Autowired
     private CompanyRepository companyRepository;
-
-    @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Company> getCompany(@PathVariable Long id) {
-        return ResponseEntity.of(companyRepository.findById(id));
-    }
-
-    @GetMapping(produces = "application/json")
-    public Iterable<Company> getCompanies(@RequestParam(defaultValue = "10") Integer size, @RequestParam(defaultValue = "0") Integer page) {
-        Pageable pageable = PageRequest.of(page, size);
-        return companyRepository.findAll(pageable);
-    }
 
     @PostMapping(value = "/approve/{id}", produces = "application/json")
     public ResponseEntity<Company> approveCompany(@PathVariable Integer id) {
