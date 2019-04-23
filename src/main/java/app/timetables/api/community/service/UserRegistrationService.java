@@ -3,11 +3,16 @@ package app.timetables.api.community.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import app.timetables.api.community.domain.PasswordResetToken;
 import app.timetables.api.community.domain.User;
 import app.timetables.api.community.dto.UserRegistrationRequestDTO;
+import app.timetables.api.community.exception.MailerException;
+import app.timetables.api.community.exception.UserDoesntExistsException;
 import app.timetables.api.community.exception.UserExistsException;
 import app.timetables.api.community.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +27,9 @@ public class UserRegistrationService {
 	
 	@Autowired
 	private UserRepository repository;
+	
+	@Autowired
+	private MailSender sender;
 	
 	public void register(UserRegistrationRequestDTO dto) {
 		if(repository.existsByLogin(dto.getLogin())) {
@@ -50,4 +58,18 @@ public class UserRegistrationService {
 	public boolean usernameAvailable(String username) {
 		return !repository.existsByLogin(username);
 	}
+	
+	/**
+	 * Resets user password and sends email with login
+	 */
+	public void resetPassword() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = repository.findByLogin(authentication.getName()).orElseThrow(() -> new UserDoesntExistsException());
+		//TODO invalidate user
+		PasswordResetToken token = PasswordResetToken.create(user);
+		if(!sender.sendResetPasswordToken(token)) {
+			throw new MailerException();
+		}
+	}
+	
 }

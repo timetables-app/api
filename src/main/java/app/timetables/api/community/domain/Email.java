@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access=AccessLevel.PRIVATE)
 public class Email {
+	
 	@NotNull
 	private String value;
 	

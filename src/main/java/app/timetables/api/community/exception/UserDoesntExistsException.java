@@ -7,12 +7,12 @@ import app.timetables.api.common.BusinessException;
  * @author kmrozowski
  *
  */
-public class UserExistsException extends BusinessException {
+public class UserDoesntExistsException extends BusinessException {
 
 	private static final long serialVersionUID = 6738566613228010359L;
 
-	public UserExistsException() {
-		super("USER_DOESNT_EXISTS");
+	public UserDoesntExistsException() {
+		super("USER_EXISTS");
 	}
 
 }

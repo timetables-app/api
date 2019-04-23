@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import app.timetables.api.community.service.TimetablesUserDetailService;
-import app.timetables.api.security.JwtAuthEntryPoint;
+import app.timetables.api.security.TimetablesAuthenticationEntryPoint;
 import app.timetables.api.security.TokenAuthenticationFilter;
 
 @Configuration
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	TimetablesUserDetailService customUserDetailsService;
 
 	@Autowired
-	JwtAuthEntryPoint unauthorizedHandler;
+	TimetablesAuthenticationEntryPoint unauthorizedHandler;
 
 	/**
 	 * Password encoder. Uses BCrypt.

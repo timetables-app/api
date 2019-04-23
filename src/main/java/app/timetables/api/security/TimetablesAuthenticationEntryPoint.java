@@ -14,12 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
+public class TimetablesAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
 			throws IOException, ServletException {
-		log.error("Responding with unauthorized error. Message - {}", ex.getMessage());
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
 	}
 

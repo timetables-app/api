@@ -1,5 +1,7 @@
 package app.timetables.api.community.dto;
 
+import app.timetables.api.community.constraints.Login;
+import app.timetables.api.community.constraints.Password;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +20,12 @@ public class UserLoginRequestDTO {
 	/**
 	 * Username or email.
 	 */
-	private String loginOrEmail; //TODO walidacja spacji itd.
+	@Login()
+	private String loginOrEmail;
 	
 	/**
 	 * Password
 	 */
+	@Password
 	private String password;
 }

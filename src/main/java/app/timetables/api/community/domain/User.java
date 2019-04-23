@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -55,7 +56,9 @@ public class User extends EntityBase {
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	// avatar
+	@Lob
+    @Column(name = "profile_pic")
+    private byte[] profilePic;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "company_id", referencedColumnName = "id")

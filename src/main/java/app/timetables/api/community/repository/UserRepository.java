@@ -6,6 +6,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import app.timetables.api.community.domain.User;
 
+/**
+ * User repository.
+ * @author kmrozowski
+ *
+ */
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 	/**
 	 * Checks if user with specified login already exists in the database.
@@ -28,4 +33,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 	 * @return
 	 */
 	Optional<User> findByLoginOrEmailValue(String username, String email);
+	
+	Optional<User> findByLogin(String username);
 }

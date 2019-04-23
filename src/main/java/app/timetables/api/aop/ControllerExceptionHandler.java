@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import app.timetables.api.common.BusinessException;
 import app.timetables.api.common.MessageTranslator;
-import app.timetables.api.common.Response;
+import app.timetables.api.common.GenericResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
@@ -31,46 +31,45 @@ public class ControllerExceptionHandler {
 	@ResponseBody
 	@ExceptionHandler(SQLException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Response<?> handleSqlException(SQLException ex, WebRequest request) {
+	public GenericResponse<?> handleSqlException(SQLException ex, WebRequest request) {
 		log.warn("SQL exception: ", ex);
 		// TODO translate
-		return Response.error(JPA_ERROR);
+		return GenericResponse.error(JPA_ERROR);
 	}
 
 	@ResponseBody
 	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(HttpStatus.OK)
-	public Response<?> handleBussinessException(BusinessException ex, WebRequest request) {
-		log.warn("Encountered BusinessException with code: TODO");
-		// TODO translate
-		return Response.error(ex.getMessageCode());
+	public GenericResponse<?> handleBussinessException(BusinessException ex, WebRequest request) {
+		log.warn("Encountered BusinessException with code: {}", ex.getMessageCode());
+		String message = messageSource.translate(ex.getMessageCode());
+		return GenericResponse.error(ex.getMessageCode(), message);
 	}
 
 	@ResponseBody
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<?> handleHttpMethodException(HttpRequestMethodNotSupportedException ex, WebRequest request) {
+	public GenericResponse<?> handleHttpMethodException(HttpRequestMethodNotSupportedException ex, WebRequest request) {
 		log.warn("Exception: ", ex);
 		String message = messageSource.translate(UNSUPPORTED_METHOD, new Object[] {ex.getMethod()});
-		return Response.error(UNSUPPORTED_METHOD, message);
+		return GenericResponse.error(UNSUPPORTED_METHOD, message);
 	}
 	
 	@ResponseBody
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Response<?> handlejsonException(HttpRequestMethodNotSupportedException ex, WebRequest request) {
+	public GenericResponse<?> handlejsonException(HttpRequestMethodNotSupportedException ex, WebRequest request) {
 		log.warn("Exception: ", ex);
 		String message = messageSource.translate(INCORRECT_BODY);
-		return Response.error(INCORRECT_BODY, message);
+		return GenericResponse.error(INCORRECT_BODY, message);
 	}
 	
-	//
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Response<?> handleOther(Exception ex, WebRequest request) {
+	public GenericResponse<?> handleOther(Exception ex, WebRequest request) {
 		log.warn("Exception: ", ex);
 		String message = messageSource.translate(UNKNOWN_ERROR);
-		return Response.error(UNKNOWN_ERROR, message);
+		return GenericResponse.error(UNKNOWN_ERROR, message);
 	}
 }

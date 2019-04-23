@@ -2,11 +2,14 @@ package app.timetables.api.community.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import app.timetables.api.community.constraints.Login;
+import app.timetables.api.community.constraints.Password;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,16 +34,13 @@ public class UserRegistrationRequestDTO implements Serializable {
 	/**
 	 * Username. Required.
 	 */
-	@NotNull(message = "LOGIN_REQUIRED")
-	@NotBlank(message = "LOGIN_REQUIRED")
+	@Login
 	private String login;
 	
 	/**
 	 * Password. At least 8 character. TODO custom validator.
 	 */
-	@NotNull(message = "PASSWORD_REQUIRED")
-	@NotBlank(message = "PASSWORD_REQUIRED")
-	@Length(min = 8, message = "PASSWORD_LENGTH")
+	@Password
 	private String password;
 	
 	/**
@@ -48,5 +48,6 @@ public class UserRegistrationRequestDTO implements Serializable {
 	 */
 	@NotNull(message = "EMAIL_REQUIRED")
 	@NotBlank(message = "EMAIL_REQUIRED")
+	@Email
 	private String email;
 }
