@@ -17,7 +17,7 @@ import app.timetables.api.community.validator.PasswordValidator;
 
 @Documented
 @Constraint(validatedBy = PasswordValidator.class)
-@Target( { ElementType.FIELD })
+@Target( { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @NotNull(message = "PASSWORD_REQUIRED")
 @NotBlank(message = "PASSWORD_REQUIRED")

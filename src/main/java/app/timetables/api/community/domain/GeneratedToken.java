@@ -11,11 +11,12 @@ import javax.persistence.OneToOne;
 
 import app.timetables.api.common.EntityBase;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PasswordResetToken extends EntityBase {
+public class GeneratedToken extends EntityBase {
   
 	/**
 	 * Expiration time in hours.
@@ -23,10 +24,12 @@ public class PasswordResetToken extends EntityBase {
     private static final int EXPIRATION = 24;
 
     @Column(name = "token")
+    @Getter
     private String token;
   
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
+    @Getter
     private User user;
   
     @Column(name = "expiration_date")
@@ -36,15 +39,15 @@ public class PasswordResetToken extends EntityBase {
     	return user.getEmail().getValue();
     }
     
-    public String getToken() {
-    	return token;
-    }
-    
-    public static PasswordResetToken create(User user) {
-    	PasswordResetToken token = new PasswordResetToken();
+    public static GeneratedToken create(User user) {
+    	GeneratedToken token = new GeneratedToken();
     	token.user = user;
     	token.expiryDate = LocalDateTime.now().plusHours(EXPIRATION);
     	token.token = UUID.randomUUID().toString();
     	return token;
+    }
+    
+    public boolean isValid() {
+    	return LocalDateTime.now().isBefore(expiryDate) && user != null;
     }
 }

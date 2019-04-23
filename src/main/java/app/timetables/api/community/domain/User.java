@@ -60,6 +60,16 @@ public class User extends EntityBase {
     @Column(name = "profile_pic")
     private byte[] profilePic;
 
+	@Column(name = "confirmed")
+	@Getter
+	private boolean confirmed;
+	
+	@Column(name = "password_reset")
+	private boolean passwordReset;
+	
+	@Column(name = "password_change")
+	private boolean passwordChange;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "company_id", referencedColumnName = "id")
 	private Company company;
@@ -73,6 +83,7 @@ public class User extends EntityBase {
 		this.login = login;
 		this.password = password;
 		this.email = Email.of(email);
+		this.confirmed = false;
 	}
 
 	public static User create(String login, String password, String email) {
@@ -96,6 +107,19 @@ public class User extends EntityBase {
 		this.from = from;
 	}
 
+	public void resetPassword() {
+		this.passwordReset = true;
+	}
+	
+	public void confirm() {
+		this.confirmed = true;
+	}
+	
+	public void setNewPassword(String password) {
+		this.password = password;
+		this.passwordChange = false;
+	}
+	
 	@PrePersist
 	protected void prePersist() {
 		registrationDate = LocalDateTime.now();
