@@ -5,6 +5,8 @@ import org.springframework.data.rest.core.config.Projection;
 
 @Projection(types = Place.class)
 public interface PlaceProjection {
+    public Long getId();
+
     @Value("#{target.locality.name}")
     public String getLocality();
 
@@ -18,4 +20,8 @@ public interface PlaceProjection {
     public String getCountry();
 
     public String getName();
+
+    public Double getLat();
+
+    public Double getLng();
 }
