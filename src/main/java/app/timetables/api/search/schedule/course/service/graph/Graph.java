@@ -10,23 +10,23 @@ public class Graph implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Map<Long, Node> graph = new LinkedHashMap<>();
+    private final Map<Long, Node> nodes = new LinkedHashMap<>();
 
     public Node getNode(Long id) {
-        return graph.get(id);
+        return nodes.get(id);
     }
 
     public Integer getSize() {
-        return graph.size();
+        return nodes.size();
     }
 
-    public void create(Place place) {
-        graph.putIfAbsent(place.getId(), new Node(place));
+    void create(Place place) {
+        nodes.putIfAbsent(place.getId(), new Node(place));
     }
 
-    public void connect(CoursePart coursePart) {
-        Node sourceNode = graph.get(coursePart.getSource().getId());
-        Node destinationNode = graph.get(coursePart.getDestination().getId());
+    void connect(CoursePart coursePart) {
+        Node sourceNode = nodes.get(coursePart.getSource().getId());
+        Node destinationNode = nodes.get(coursePart.getDestination().getId());
 
         sourceNode.addNearbyNode(destinationNode);
         sourceNode.addCoursePartForPlace(destinationNode, coursePart);

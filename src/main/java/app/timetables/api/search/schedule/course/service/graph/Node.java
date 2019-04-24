@@ -34,19 +34,7 @@ public class Node implements Serializable {
         return nearbyNodes;
     }
 
-    public void addNearbyNode(Node destinationNode) {
-        nearbyNodes.add(destinationNode);
-    }
-
-    public List<CoursePart> getCoursePartsForPlace(Place place) {
-        return getCourseParts(place.getId());
-    }
-
     public List<CoursePart> getCoursePartsForPlace(Long id) {
-        return getCourseParts(id);
-    }
-
-    private List<CoursePart> getCourseParts(Long id) {
         if (coursePartsForPlace.containsKey(id)) {
             return coursePartsForPlace.get(id);
         }
@@ -54,7 +42,11 @@ public class Node implements Serializable {
         return Collections.emptyList();
     }
 
-    public void addCoursePartForPlace(Node destinationNode, CoursePart coursePart) {
+    void addNearbyNode(Node destinationNode) {
+        nearbyNodes.add(destinationNode);
+    }
+
+    void addCoursePartForPlace(Node destinationNode, CoursePart coursePart) {
         if (!coursePartsForPlace.containsKey(destinationNode.getId())) {
             coursePartsForPlace.put(destinationNode.getId(), new ArrayList<>());
         }

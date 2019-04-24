@@ -23,7 +23,7 @@ public class PathFinderTest {
     private PathFinderInterface pathFinder;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         graphBuilder = new GraphBuilder();
         pathFinder = new PathFinder();
     }

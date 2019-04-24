@@ -1,10 +1,12 @@
 package app.timetables.api.search.schedule.course.service;
 
 import app.timetables.api.schedule.domain.Course;
+import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilderInterface;
 import app.timetables.api.search.schedule.course.service.graph.Node;
+import app.timetables.api.search.schedule.course.service.pathfinder.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +15,50 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseSearch {
 
-    private CoursePartsProviderInterface coursePartsProvider;
+    private final CoursePartsProviderInterface coursePartsProvider;
 
-    private GraphBuilderInterface graphBuilder;
+    private final GraphBuilderInterface graphBuilder;
+
+    private final PathFinderInterface pathFinder;
 
     private List<Course> courses = new ArrayList<>();
 
     @Autowired
     public CourseSearch(
         CoursePartsProviderInterface coursePartsProvider,
-        GraphBuilderInterface graphBuilder
+        GraphBuilderInterface graphBuilder,
+        PathFinderInterface pathFinder
     ) {
         this.coursePartsProvider = coursePartsProvider;
         this.graphBuilder = graphBuilder;
+        this.pathFinder = pathFinder;
     }
 
-    public List<Course> search(CourseSearchQuery courseSearchQuery) {
+    public CourseSearchResult search(CourseSearchQuery courseSearchQuery) {
         Graph graph = buildGraph();
         Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
         Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
 
         if (validate(startNode, endNode)) {
-            return courses;
+            return new CourseSearchResult();
         }
 
+        return createResult(pathFinder.find(startNode, endNode, graph), graph);
+    }
 
-        return courses;
+    private CourseSearchResult createResult(List<Path> paths, Graph graph) {
+        for(Path path : paths){
+            List<Long> pathPoints = path.getPoints();
+            Node startNode = graph.getNode(pathPoints.get(0));
+            Node nextNode;
+            for (int i = 1; i < pathPoints.size(); i++) {
+                nextNode = graph.getNode(pathPoints.get(i));
+                CoursePart coursePart = startNode.getCoursePartsForPlace(nextNode.getId()).get(0);
+                startNode = nextNode;
+            }
+        }
+
+        return new CourseSearchResult();
     }
 
 
