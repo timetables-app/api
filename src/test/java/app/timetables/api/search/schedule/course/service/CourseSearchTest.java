@@ -61,7 +61,7 @@ public class CourseSearchTest {
         CourseSearchQuery courseSearchQuery = new CourseSearchQuery(1L, 3L);
         List<Course> courseList = courseSearch.search(courseSearchQuery);
 
-//        Course course = courseList.get(0);
+//        Course course = courseList.getPoints(0);
 //        assertSame(1L, course.getId());
     }
 }

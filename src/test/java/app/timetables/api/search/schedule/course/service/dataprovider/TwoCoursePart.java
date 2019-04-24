@@ -18,7 +18,7 @@ public class TwoCoursePart {
 
     private static final Map<Long, Place> places = new HashMap<>();
 
-    public static List<CoursePart> get() throws NoSuchFieldException {
+    public static List<CoursePart> get() {
         Timetable timetableMock1 = Mockito.mock(Timetable.class);
         Mockito.when(timetableMock1.getId()).thenReturn(1L);
 

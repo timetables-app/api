@@ -22,7 +22,7 @@ public class Node implements Serializable {
 
     private Map<Long, List<CoursePart>> coursePartsForPlace = new HashMap<>();
 
-    public Node(Place place) {
+    Node(Place place) {
         this.place = place;
     }
 
