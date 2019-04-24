@@ -11,9 +11,9 @@ public class GraphBuilder implements GraphBuilderInterface {
 
     public Graph build(List<CoursePart> coursePartList) {
         for (CoursePart coursePart : coursePartList) {
-            graph.create(coursePart.getCourse(), coursePart.getSource());
-            graph.create(coursePart.getCourse(), coursePart.getDestination());
-            graph.connect(coursePart.getSource(), coursePart.getDestination());
+            graph.create(coursePart.getSource());
+            graph.create(coursePart.getDestination());
+            graph.connect(coursePart);
         }
 
         return graph;

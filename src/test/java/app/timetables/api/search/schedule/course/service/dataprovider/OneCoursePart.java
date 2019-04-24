@@ -14,11 +14,14 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public class OneCoursePart {
 
-    private static final List<CoursePart> courseParts = new ArrayList<>();
+    private static List<CoursePart> courseParts;
 
-    private static final Map<Long, Place> places = new HashMap<>();
+    private static Map<Long, Place> places;
 
     public static List<CoursePart> get() throws NoSuchFieldException {
+        courseParts = new ArrayList<>();
+        places = new HashMap<>();
+
         Timetable timetableMock = Mockito.mock(Timetable.class);
         Mockito.when(timetableMock.getId()).thenReturn(1L);
 

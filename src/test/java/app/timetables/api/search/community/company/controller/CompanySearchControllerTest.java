@@ -37,7 +37,7 @@ public class CompanySearchControllerTest {
 
     @Test
     public void getCompanies() throws Exception {
-        mockMvc.perform(get("/companies/?size=2&page=1&sort=id&direction=desc"))
+        mockMvc.perform(get("/companies/?getSize=2&page=1&sort=id&direction=desc"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.content.length()", is(2)))
             .andExpect(jsonPath("$.pageable.pageNumber", is(1)));

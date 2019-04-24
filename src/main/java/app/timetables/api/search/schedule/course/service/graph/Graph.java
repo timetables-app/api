@@ -1,6 +1,6 @@
 package app.timetables.api.search.schedule.course.service.graph;
 
-import app.timetables.api.schedule.domain.Course;
+import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.schedule.domain.Place;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -12,28 +12,24 @@ public class Graph implements Serializable {
 
     private final Map<Long, Node> graph = new LinkedHashMap<>();
 
-    public Map<Long, Node> get() {
-        return graph;
-    }
-
     public Node getNode(Long id) {
         return graph.get(id);
     }
 
-    public void create(Course course, Place place) {
-        Long placeId = place.getId();
-        if (!graph.containsKey(placeId)) {
-            graph.put(placeId, new Node(placeId));
-        }
-
-        graph.get(placeId).getCourses().add(course);
+    public Integer getSize() {
+        return graph.size();
     }
 
-    public void connect(Place source, Place destination) {
-        Node sourceNode = graph.get(source.getId());
-        Node destinationNode = graph.get(destination.getId());
+    public void create(Place place) {
+        graph.putIfAbsent(place.getId(), new Node(place));
+    }
 
-        sourceNode.getNearbyPlaces().add(destinationNode);
+    public void connect(CoursePart coursePart) {
+        Node sourceNode = graph.get(coursePart.getSource().getId());
+        Node destinationNode = graph.get(coursePart.getDestination().getId());
+
+        sourceNode.addNearbyNode(destinationNode);
+        sourceNode.addCoursePartForPlace(destinationNode, coursePart);
     }
 
 
