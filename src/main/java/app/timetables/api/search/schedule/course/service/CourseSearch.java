@@ -9,6 +9,7 @@ import app.timetables.api.search.schedule.course.service.graph.Node;
 import app.timetables.api.search.schedule.course.service.pathfinder.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,31 +35,34 @@ public class CourseSearch {
         this.pathFinder = pathFinder;
     }
 
-    public CourseSearchResult search(CourseSearchQuery courseSearchQuery) {
+    public List<Course> search(CourseSearchQuery courseSearchQuery) {
         Graph graph = buildGraph();
         Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
         Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
 
         if (validate(startNode, endNode)) {
-            return new CourseSearchResult();
+            return courses;
         }
 
         return createResult(pathFinder.find(startNode, endNode, graph), graph);
     }
 
-    private CourseSearchResult createResult(List<Path> paths, Graph graph) {
-        for(Path path : paths){
+    private List<Course> createResult(List<Path> paths, Graph graph) {
+        for (Path path : paths) {
             List<Long> pathPoints = path.getPoints();
             Node startNode = graph.getNode(pathPoints.get(0));
             Node nextNode;
             for (int i = 1; i < pathPoints.size(); i++) {
                 nextNode = graph.getNode(pathPoints.get(i));
-                CoursePart coursePart = startNode.getCoursePartsForPlace(nextNode.getId()).get(0);
-                startNode = nextNode;
+
+                courses.addAll(startNode.getCoursePartsForPlace(nextNode.getId())
+                    .stream()
+                    .map(CoursePart::getCourse)
+                    .collect(Collectors.toList()));
             }
         }
 
-        return new CourseSearchResult();
+        return courses;
     }
 
 

@@ -14,11 +14,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public class TwoCoursePart {
 
-    private static final List<CoursePart> courseParts = new ArrayList<>();
-
     private static final Map<Long, Place> places = new HashMap<>();
 
     public static List<CoursePart> get() {
+        List<CoursePart> courseParts = new ArrayList<>();
+
         Timetable timetableMock1 = Mockito.mock(Timetable.class);
         Mockito.when(timetableMock1.getId()).thenReturn(1L);
 
