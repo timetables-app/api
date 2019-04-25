@@ -41,13 +41,13 @@ public class PathFinder implements PathFinderInterface {
         }
 
         for (Node node : startNode.getNearbyNodes()) {
-            if (visited.containsKey(node.getId())) {
+            if (visited.getOrDefault(node.getId(), false)) {
                 continue;
             }
 
             localPath.add(node.getId());
             aggregatePaths(node, endNode, visited, localPath);
-            localPath.pop();
+            localPath.removeLast();
         }
 
         visited.put(startNode.getId(), false);

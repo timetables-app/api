@@ -1,4 +1,4 @@
-package app.timetables.api.search.schedule.course.service.dataprovider;
+package app.timetables.api.search.schedule.course.service.dataprovider.onecourse;
 
 import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
@@ -6,18 +6,14 @@ import app.timetables.api.schedule.domain.Place;
 import app.timetables.api.schedule.domain.Timetable;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 
 public class ThreeCoursePart {
 
-    private static final Map<Long, Place> places = new HashMap<>();
-
     public static List<CoursePart> get() {
         List<CoursePart> courseParts = new ArrayList<>();
+        PlaceCreator placeCreator = new PlaceCreator();
 
         Timetable timetableMock1 = Mockito.mock(Timetable.class);
         Mockito.when(timetableMock1.getId()).thenReturn(1L);
@@ -26,10 +22,10 @@ public class ThreeCoursePart {
         Mockito.when(courseMock1.getId()).thenReturn(1L);
         Mockito.when(courseMock1.getTimetable()).thenReturn(timetableMock1);
 
-        Place place1 = getPlace(1L);
-        Place place2 = getPlace(2L);
-        Place place3 = getPlace(3L);
-        Place place4 = getPlace(4L);
+        Place place1 = placeCreator.getPlace(1L);
+        Place place2 = placeCreator.getPlace(2L);
+        Place place3 = placeCreator.getPlace(3L);
+        Place place4 = placeCreator.getPlace(4L);
 
         CoursePart coursePart1 = Mockito.mock(CoursePart.class);
         Mockito.when(coursePart1.getId()).thenReturn(1L);
@@ -61,20 +57,5 @@ public class ThreeCoursePart {
         return courseParts;
     }
 
-    private static Place getPlace(Long id) {
-        if (places.containsKey(id)) {
-            return places.get(id);
-        }
-
-        Place place = Mockito.mock(Place.class);
-        Mockito.when(place.getId()).thenReturn(id);
-        Mockito.when(place.getName()).thenReturn("Place: " + id.toString());
-        ReflectionTestUtils.setField(place, "id", id);
-        ReflectionTestUtils.setField(place, "name", "Place: " + id.toString());
-
-        places.put(id, place);
-
-        return place;
-    }
 
 }

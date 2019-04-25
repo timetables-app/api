@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
-import app.timetables.api.search.schedule.course.service.dataprovider.OneCoursePart;
-import app.timetables.api.search.schedule.course.service.dataprovider.ThreeCoursePart;
-import app.timetables.api.search.schedule.course.service.dataprovider.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.ThreeCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
 import app.timetables.api.search.schedule.course.service.result.CourseDto;
 import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
