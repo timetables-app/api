@@ -7,9 +7,10 @@ import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilderInterface;
 import app.timetables.api.search.schedule.course.service.graph.Node;
 import app.timetables.api.search.schedule.course.service.pathfinder.Path;
+import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
+import app.timetables.api.search.schedule.course.service.result.CourseSearchResult.CourseDto;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,34 +36,39 @@ public class CourseSearch {
         this.pathFinder = pathFinder;
     }
 
-    public List<Course> search(CourseSearchQuery courseSearchQuery) {
+    public CourseSearchResult search(CourseSearchQuery courseSearchQuery) {
         Graph graph = buildGraph();
         Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
         Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
 
         if (validate(startNode, endNode)) {
-            return courses;
+            return new CourseSearchResult();
         }
 
         return createResult(pathFinder.find(startNode, endNode, graph), graph);
     }
 
-    private List<Course> createResult(List<Path> paths, Graph graph) {
+    private CourseSearchResult createResult(List<Path> paths, Graph graph) {
+        CourseSearchResult courseSearchResult = new CourseSearchResult();
+
         for (Path path : paths) {
+            CourseDto courseDto = courseSearchResult.createCourse();
+
             List<Long> pathPoints = path.getPoints();
             Node startNode = graph.getNode(pathPoints.get(0));
             Node nextNode;
             for (int i = 1; i < pathPoints.size(); i++) {
                 nextNode = graph.getNode(pathPoints.get(i));
 
-                courses.addAll(startNode.getCoursePartsForPlace(nextNode.getId())
-                    .stream()
-                    .map(CoursePart::getCourse)
-                    .collect(Collectors.toList()));
+                for (CoursePart coursePart : startNode.getCoursePartsForPlace(nextNode.getId())) {
+                    courseDto.createPart(coursePart);
+                }
+
+                startNode = nextNode;
             }
         }
 
-        return courses;
+        return courseSearchResult;
     }
 
 

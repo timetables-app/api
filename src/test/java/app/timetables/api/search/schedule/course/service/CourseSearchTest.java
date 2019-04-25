@@ -3,12 +3,13 @@ package app.timetables.api.search.schedule.course.service;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.dataprovider.OneCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.TwoCoursePart;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
+import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
+import app.timetables.api.search.schedule.course.service.result.CourseSearchResult.CourseDto;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +37,9 @@ public class CourseSearchTest {
         Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
 
         CourseSearchQuery courseSearchQuery = new CourseSearchQuery(10L, 2L);
-        List<Course> courses = courseSearch.search(courseSearchQuery);
+        CourseSearchResult courseSearchResult = courseSearch.search(courseSearchQuery);
 
-        assertTrue(courses.isEmpty());
+        assertTrue(courseSearchResult.getCourses().isEmpty());
     }
 
     @Test
@@ -47,10 +48,11 @@ public class CourseSearchTest {
         Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
 
         CourseSearchQuery courseSearchQuery = new CourseSearchQuery(1L, 2L);
-        List<Course> courses = courseSearch.search(courseSearchQuery);
+        CourseSearchResult courseSearchResult = courseSearch.search(courseSearchQuery);
 
-        Course course = courses.get(0);
-        assertSame(1L, course.getId());
+        CourseDto courseDto = courseSearchResult.getCourses().get(0);
+        assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
+        assertSame(2, courseDto.getParts().get(1L).getPlaces().size());
     }
 
     @Test
@@ -59,9 +61,10 @@ public class CourseSearchTest {
         Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
 
         CourseSearchQuery courseSearchQuery = new CourseSearchQuery(1L, 3L);
-        List<Course> courses = courseSearch.search(courseSearchQuery);
+        CourseSearchResult courseSearchResult = courseSearch.search(courseSearchQuery);
 
-        Course course = courses.get(0);
-        assertSame(1L, course.getId());
+        CourseDto courseDto = courseSearchResult.getCourses().get(0);
+        assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
+        assertSame(3, courseDto.getParts().get(1L).getPlaces().size());
     }
 }
