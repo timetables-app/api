@@ -7,18 +7,18 @@ public class PlaceDto {
 
     private Place place;
 
-    private LocalTime departureTime;
+    private LocalTime time;
 
-    PlaceDto(Place place, LocalTime departureTime) {
+    PlaceDto(Place place, LocalTime time) {
         this.place = place;
-        this.departureTime = departureTime;
+        this.time = time;
     }
 
     public Place getPlace() {
         return place;
     }
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
+    public LocalTime getTime() {
+        return time;
     }
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePath;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
@@ -99,6 +100,39 @@ public class GraphBuilderTest {
         assertSame(1, graph.getNode(1L).getCoursePartsForPlace(3L).size());
         assertSame(1, graph.getNode(2L).getCoursePartsForPlace(4L).size());
         assertSame(1, graph.getNode(3L).getCoursePartsForPlace(4L).size());
+    }
+
+    @Test
+    public void testGraphBuildForTwoCoursesOnePath_Size() {
+        Graph graph = graphBuilder.build(OnePath.get());
+
+        assertSame(5, graph.getSize());
+    }
+
+    @Test
+    public void testGraphBuildForTwoCoursesOnePath_Connections() {
+        Graph graph = graphBuilder.build(OnePath.get());
+
+        Node node1 = graph.getNode(1L);
+        assertNearbyNode(node1, Arrays.asList(graph.getNode(2L), graph.getNode(5L)));
+
+        Node node2 = graph.getNode(2L);
+        assertNearbyNode(node2, Collections.singletonList(graph.getNode(4L)));
+
+        Node node3 = graph.getNode(3L);
+        assertNearbyNode(node3, Collections.singletonList(graph.getNode(1L)));
+
+        Node node4 = graph.getNode(4L);
+        assertTrue(node4.getNearbyNodes().isEmpty());
+
+        Node node5 = graph.getNode(5L);
+        assertTrue(node5.getNearbyNodes().isEmpty());
+
+        assertSame(1, graph.getNode(1L).getCoursePartsForPlace(2L).size());
+        assertSame(1, graph.getNode(1L).getCoursePartsForPlace(5L).size());
+
+        assertSame(1, graph.getNode(2L).getCoursePartsForPlace(4L).size());
+        assertSame(1, graph.getNode(3L).getCoursePartsForPlace(1L).size());
     }
 
     private void assertNearbyNode(Node nodeToTest, List<Node> nodes) {

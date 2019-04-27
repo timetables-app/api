@@ -1,9 +1,11 @@
 package app.timetables.api.search.schedule.course.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.ThreeCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePath;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
@@ -30,7 +32,7 @@ public class PathFinderTest {
     }
 
     @Test
-    public void testPathForOneCoursePart() {
+    public void testFindPathForOneCoursePart() {
         Graph graph = graphBuilder.build(OneCoursePart.get());
 
         Node startNode = graph.getNode(1L);
@@ -44,7 +46,7 @@ public class PathFinderTest {
     }
 
     @Test
-    public void testPathForTwoCoursePart() {
+    public void testFindPathForTwoCoursePart() {
         Graph graph = graphBuilder.build(TwoCoursePart.get());
 
         Node startNode = graph.getNode(1L);
@@ -59,7 +61,23 @@ public class PathFinderTest {
     }
 
     @Test
-    public void testPathForTwoCourses() {
+    public void testFindPathForThreeCoursePart() {
+        Graph graph = graphBuilder.build(ThreeCoursePart.get());
+
+        Node startNode = graph.getNode(1L);
+        Node endNode = graph.getNode(4L);
+
+        List<Path> foundPaths = pathFinder.find(startNode, endNode, graph);
+
+        assertSame(1, foundPaths.size());
+        assertSame(1L, foundPaths.get(0).getPoints().get(0));
+        assertSame(2L, foundPaths.get(0).getPoints().get(1));
+        assertSame(3L, foundPaths.get(0).getPoints().get(2));
+        assertSame(4L, foundPaths.get(0).getPoints().get(3));
+    }
+
+    @Test
+    public void testFindPathForTwoCourses_TwoPaths_1_4() {
         Graph graph = graphBuilder.build(TwoPaths.get());
 
         Node startNode = graph.getNode(1L);
@@ -78,4 +96,51 @@ public class PathFinderTest {
         assertSame(4L, foundPaths.get(1).getPoints().get(2));
     }
 
+    @Test
+    public void testFindPathForTwoCourses_TwoPaths_3_4() {
+        Graph graph = graphBuilder.build(TwoPaths.get());
+
+        Node startNode = graph.getNode(3L);
+        Node endNode = graph.getNode(4L);
+
+        List<Path> foundPaths = pathFinder.find(startNode, endNode, graph);
+
+        assertSame(1, foundPaths.size());
+
+        assertSame(3L, foundPaths.get(0).getPoints().get(0));
+        assertSame(4L, foundPaths.get(0).getPoints().get(1));
+    }
+
+
+    @Test
+    public void testFindPathForTwoCourses_OnePath_1_4() {
+        Graph graph = graphBuilder.build(OnePath.get());
+
+        Node startNode = graph.getNode(1L);
+        Node endNode = graph.getNode(4L);
+
+        List<Path> foundPaths = pathFinder.find(startNode, endNode, graph);
+
+        assertSame(1, foundPaths.size());
+
+        assertSame(1L, foundPaths.get(0).getPoints().get(0));
+        assertSame(2L, foundPaths.get(0).getPoints().get(1));
+        assertSame(4L, foundPaths.get(0).getPoints().get(2));
+    }
+
+    @Test
+    public void testFindPathForTwoCourses_OnePath_3_5() {
+        Graph graph = graphBuilder.build(OnePath.get());
+
+        Node startNode = graph.getNode(3L);
+        Node endNode = graph.getNode(5L);
+
+        List<Path> foundPaths = pathFinder.find(startNode, endNode, graph);
+
+        assertSame(1, foundPaths.size());
+
+        assertSame(3L, foundPaths.get(0).getPoints().get(0));
+        assertSame(1L, foundPaths.get(0).getPoints().get(1));
+        assertSame(5L, foundPaths.get(0).getPoints().get(2));
+    }
 }
