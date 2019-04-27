@@ -1,4 +1,4 @@
-package app.timetables.api.search.schedule.course.service.dataprovider.onecourse;
+package app.timetables.api.search.schedule.course.service.dataprovider;
 
 import app.timetables.api.schedule.domain.Place;
 import java.util.HashMap;

@@ -4,6 +4,7 @@ import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.schedule.domain.Place;
 import app.timetables.api.schedule.domain.Timetable;
+import app.timetables.api.search.schedule.course.service.dataprovider.PlaceCreator;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

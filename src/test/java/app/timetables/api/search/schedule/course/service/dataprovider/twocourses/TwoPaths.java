@@ -4,7 +4,7 @@ import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
 import app.timetables.api.schedule.domain.Place;
 import app.timetables.api.schedule.domain.Timetable;
-import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.PlaceCreator;
+import app.timetables.api.search.schedule.course.service.dataprovider.PlaceCreator;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public class TwoPaths {
         Mockito.when(coursePart2.getSource()).thenReturn(place3);
         Mockito.when(coursePart2.getDestination()).thenReturn(place4);
         Mockito.when(coursePart2.getSourceTime()).thenReturn(LocalTime.of(7, 15));
-        Mockito.when(coursePart2.getDestinationTime()).thenReturn(LocalTime.of(7, 20));
+        Mockito.when(coursePart2.getDestinationTime()).thenReturn(LocalTime.of(7, 40));
         Mockito.when(coursePart2.getCourse()).thenReturn(courseMock2);
         courseParts.add(coursePart2);
     }
