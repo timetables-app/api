@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePath;
+import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePathTwoSameCourses;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
@@ -133,6 +134,35 @@ public class GraphBuilderTest {
 
         assertSame(1, graph.getNode(2L).getCoursePartsForPlace(4L).size());
         assertSame(1, graph.getNode(3L).getCoursePartsForPlace(1L).size());
+    }
+
+
+    @Test
+    public void testGraphBuildForTwoCoursesOnePathTwoSameCourses_Size() {
+        Graph graph = graphBuilder.build(OnePathTwoSameCourses.get());
+
+        assertSame(4, graph.getSize());
+    }
+
+    @Test
+    public void testGraphBuildForTwoCoursesOnePathTwoSameCourses_Connections() {
+        Graph graph = graphBuilder.build(OnePathTwoSameCourses.get());
+
+        Node node1 = graph.getNode(1L);
+        assertNearbyNode(node1, Collections.singletonList(graph.getNode(2L)));
+
+        Node node2 = graph.getNode(2L);
+        assertNearbyNode(node2, Collections.singletonList(graph.getNode(3L)));
+
+        Node node3 = graph.getNode(3L);
+        assertNearbyNode(node3, Collections.singletonList(graph.getNode(4L)));
+
+        Node node4 = graph.getNode(4L);
+        assertTrue(node4.getNearbyNodes().isEmpty());
+
+        assertSame(2, graph.getNode(1L).getCoursePartsForPlace(2L).size());
+        assertSame(2, graph.getNode(2L).getCoursePartsForPlace(3L).size());
+        assertSame(2, graph.getNode(3L).getCoursePartsForPlace(4L).size());
     }
 
     private void assertNearbyNode(Node nodeToTest, List<Node> nodes) {

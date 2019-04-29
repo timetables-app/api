@@ -52,23 +52,32 @@ public class CourseSearch {
         CourseSearchResult courseSearchResult = new CourseSearchResult();
 
         for (Path path : paths) {
-            CourseDto courseDto = courseSearchResult.createCourse();
-
-            List<Long> pathPoints = path.getPoints();
-            Node startNode = graph.getNode(pathPoints.get(0));
-            Node nextNode;
-            for (int i = 1; i < pathPoints.size(); i++) {
-                nextNode = graph.getNode(pathPoints.get(i));
-
-                for (CoursePart coursePart : startNode.getCoursePartsForPlace(nextNode.getId())) {
-                    courseDto.createPart(coursePart);
-                }
-
-                startNode = nextNode;
-            }
+            resolveCourses(graph, courseSearchResult, path);
         }
 
         return courseSearchResult;
+    }
+
+    private void resolveCourses(Graph graph, CourseSearchResult courseSearchResult, Path path) {
+        List<Long> pathPoints = path.getPoints();
+        Node startNode = graph.getNode(pathPoints.get(0));
+        Node nextNode;
+        for (int i = 1; i < pathPoints.size(); i++) {
+            nextNode = graph.getNode(pathPoints.get(i));
+            createParts(courseSearchResult, startNode, nextNode);
+            startNode = nextNode;
+        }
+    }
+
+    private void createParts(
+        CourseSearchResult courseSearchResult,
+        Node startNode,
+        Node nextNode
+    ) {
+        for (CoursePart coursePart : startNode.getCoursePartsForPlace(nextNode.getId())) {
+            CourseDto courseDto = courseSearchResult.createCourse(coursePart.getCourse().getId());
+            courseDto.createPart(coursePart);
+        }
     }
 
 

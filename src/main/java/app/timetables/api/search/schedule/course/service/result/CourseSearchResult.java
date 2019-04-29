@@ -1,19 +1,23 @@
 package app.timetables.api.search.schedule.course.service.result;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CourseSearchResult {
 
-    private List<CourseDto> courses = new ArrayList<>();
+    private Map<Long, CourseDto> courses = new HashMap<>();
 
-    public List<CourseDto> getCourses() {
+    public Map<Long, CourseDto> getCourses() {
         return courses;
     }
 
-    public CourseDto createCourse() {
-        CourseDto courseDto = new CourseDto();
-        courses.add(courseDto);
+    public CourseDto createCourse(Long id) {
+        if (courses.containsKey(id)) {
+            return courses.get(id);
+        }
+
+        CourseDto courseDto = new CourseDto(id);
+        courses.put(id, courseDto);
 
         return courseDto;
     }

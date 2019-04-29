@@ -6,7 +6,13 @@ import java.util.Map;
 
 public class CourseDto {
 
+    private final Long mainCourseId;
+
     private Map<Long, PartDto> parts = new HashMap<>();
+
+    public CourseDto(Long id) {
+        mainCourseId = id;
+    }
 
     public Map<Long, PartDto> getParts() {
         return parts;
