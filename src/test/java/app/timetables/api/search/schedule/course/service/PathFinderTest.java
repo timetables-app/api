@@ -5,6 +5,7 @@ import static org.junit.Assert.assertSame;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.ThreeCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.threecourses.TwoComplexPaths;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePath;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
@@ -143,4 +144,25 @@ public class PathFinderTest {
         assertSame(1L, foundPaths.get(0).getPoints().get(1));
         assertSame(5L, foundPaths.get(0).getPoints().get(2));
     }
+
+    @Test
+    public void testFindPathForThreeCourses_TwoComplexPaths() {
+        Graph graph = graphBuilder.build(TwoComplexPaths.get());
+
+        Node startNode = graph.getNode(1L);
+        Node endNode = graph.getNode(4L);
+
+        List<Path> foundPaths = pathFinder.find(startNode, endNode, graph);
+
+        assertSame(2, foundPaths.size());
+
+        assertSame(1L, foundPaths.get(0).getPoints().get(0));
+        assertSame(2L, foundPaths.get(0).getPoints().get(1));
+        assertSame(4L, foundPaths.get(0).getPoints().get(2));
+
+        assertSame(1L, foundPaths.get(1).getPoints().get(0));
+        assertSame(5L, foundPaths.get(1).getPoints().get(1));
+        assertSame(4L, foundPaths.get(1).getPoints().get(2));
+    }
+
 }
