@@ -37,7 +37,7 @@ public class CourseSearch {
     }
 
     public CourseSearchResult search(CourseSearchQuery courseSearchQuery) {
-        Graph graph = buildGraph();
+        Graph graph = buildGraph(courseSearchQuery);
         Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
         Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
 
@@ -85,7 +85,7 @@ public class CourseSearch {
         return startNode == null || endNode == null;
     }
 
-    private Graph buildGraph() {
+    private Graph buildGraph(CourseSearchQuery courseSearchQuery) {
         return graphBuilder.build(coursePartsProvider.get());
     }
 

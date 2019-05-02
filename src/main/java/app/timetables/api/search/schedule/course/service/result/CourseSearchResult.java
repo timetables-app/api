@@ -16,7 +16,7 @@ public class CourseSearchResult {
             return courses.get(id);
         }
 
-        CourseDto courseDto = new CourseDto(id);
+        CourseDto courseDto = new CourseDto();
         courses.put(id, courseDto);
 
         return courseDto;

@@ -9,6 +9,7 @@ import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.ThreeCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.threecourses.TwoComplexPaths;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePath;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.OnePathTwoSameCourses;
 import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
@@ -54,6 +55,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 2L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
 
         CourseDto courseDto = courseSearchResult.getCourses().get(1L);
         assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
@@ -67,6 +69,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 3L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
 
         CourseDto courseDto = courseSearchResult.getCourses().get(1L);
         assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
@@ -80,6 +83,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
 
         CourseDto courseDto = courseSearchResult.getCourses().get(1L);
         assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
@@ -93,6 +97,8 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
 
         numberOfFoundCourses(courseSearchResult, 2);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
+        numberOfPartsInCourse(courseSearchResult, 2L, 1);
 
         CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
         List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
@@ -120,6 +126,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(3L, 4L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 2L, 1);
 
         CourseDto courseDto1 = courseSearchResult.getCourses().get(2L);
         List<PlaceDto> places1 = courseDto1.getParts().get(2L).getPlaces();
@@ -137,6 +144,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
 
         CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
         List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
@@ -155,6 +163,7 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(3L, 5L);
 
         numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 2L, 1);
 
         CourseDto courseDto1 = courseSearchResult.getCourses().get(2L);
         List<PlaceDto> places1 = courseDto1.getParts().get(2L).getPlaces();
@@ -173,6 +182,8 @@ public class CourseSearchTest {
         CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
 
         numberOfFoundCourses(courseSearchResult, 2);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
+        numberOfPartsInCourse(courseSearchResult, 2L, 1);
 
         CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
         List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
@@ -193,6 +204,38 @@ public class CourseSearchTest {
         assertEquals(LocalTime.of(8, 25), places2.get(1).getTime());
         assertEquals(LocalTime.of(8, 30), places2.get(2).getTime());
         assertEquals(LocalTime.of(8, 40), places2.get(3).getTime());
+    }
+
+    @Test
+    public void testCourseSearchForThreeCourses_TwoComplexPaths() {
+        List<CoursePart> coursePartList = TwoComplexPaths.get();
+        Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
+        CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
+
+        numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
+
+        CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
+        List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
+        assertSame(1L, courseDto1.getParts().get(1L).getCourse().getId());
+        assertSame(3, places1.size());
+
+        assertSame(1L, places1.get(0).getPlace().getId());
+        assertSame(2L, places1.get(1).getPlace().getId());
+        assertSame(4L, places1.get(2).getPlace().getId());
+
+        assertEquals(LocalTime.of(8, 0), places1.get(0).getTime());
+        assertEquals(LocalTime.of(8, 15), places1.get(1).getTime());
+        assertEquals(LocalTime.of(8, 20), places1.get(2).getTime());
+    }
+
+
+    private void numberOfPartsInCourse(
+        CourseSearchResult courseSearchResult,
+        long index,
+        int number
+    ) {
+        assertSame(number, courseSearchResult.getCourses().get(index).getParts().size());
     }
 
     private CourseSearchResult searchForPlaces(long startPlace, long endPlace) {
