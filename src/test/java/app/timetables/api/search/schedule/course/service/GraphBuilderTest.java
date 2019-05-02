@@ -32,14 +32,14 @@ public class GraphBuilderTest {
 
     @Test
     public void testGraphBuildForOneCoursePart_Size() {
-        Graph graph = graphBuilder.build(OneCoursePart.get());
+        Graph graph = graphBuilder.build(OneCoursePart.getFirstCourseParts());
 
         assertSame(2, graph.getSize());
     }
 
     @Test
     public void testGraphBuildForOneCoursePart_Connection() {
-        Graph graph = graphBuilder.build(OneCoursePart.get());
+        Graph graph = graphBuilder.build(OneCoursePart.getFirstCourseParts());
 
         Node node1 = graph.getNode(1L);
         assertNearbyNode(node1, graph.getNode(2L));
@@ -52,14 +52,14 @@ public class GraphBuilderTest {
 
     @Test
     public void testGraphBuildForTwoCoursePart_Size() {
-        Graph graph = graphBuilder.build(TwoCoursePart.get());
+        Graph graph = graphBuilder.build(TwoCoursePart.getFirstCourseParts());
 
         assertSame(3, graph.getSize());
     }
 
     @Test
     public void testGraphBuildForTwoCoursePart_Connections() {
-        Graph graph = graphBuilder.build(TwoCoursePart.get());
+        Graph graph = graphBuilder.build(TwoCoursePart.getFirstCourseParts());
 
         Node node1 = graph.getNode(1L);
         assertNearbyNode(node1, graph.getNode(2L));

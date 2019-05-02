@@ -34,7 +34,7 @@ public class PathFinderTest {
 
     @Test
     public void testFindPathForOneCoursePart() {
-        Graph graph = graphBuilder.build(OneCoursePart.get());
+        Graph graph = graphBuilder.build(OneCoursePart.getFirstCourseParts());
 
         Node startNode = graph.getNode(1L);
         Node endNode = graph.getNode(2L);
@@ -48,7 +48,7 @@ public class PathFinderTest {
 
     @Test
     public void testFindPathForTwoCoursePart() {
-        Graph graph = graphBuilder.build(TwoCoursePart.get());
+        Graph graph = graphBuilder.build(TwoCoursePart.getFirstCourseParts());
 
         Node startNode = graph.getNode(1L);
         Node endNode = graph.getNode(3L);

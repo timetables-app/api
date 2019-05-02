@@ -1,12 +1,10 @@
 package app.timetables.api.schedule.service;
 
 import app.timetables.api.schedule.domain.Course;
-import app.timetables.api.schedule.domain.CoursePart;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CoursePartRepository extends CrudRepository<CoursePart, Long> {
+public interface CourseRepository extends CrudRepository<Course, Long> {
 
-    Iterable<CoursePart> findByCourse(Course course);
 }

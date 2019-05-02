@@ -2,6 +2,8 @@ package app.timetables.api.search.schedule.course.service;
 
 import app.timetables.api.schedule.domain.Course;
 import app.timetables.api.schedule.domain.CoursePart;
+import app.timetables.api.schedule.service.CoursePartRepository;
+import app.timetables.api.schedule.service.CourseRepository;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.graph.Graph;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilderInterface;
@@ -9,7 +11,6 @@ import app.timetables.api.search.schedule.course.service.graph.Node;
 import app.timetables.api.search.schedule.course.service.pathfinder.Path;
 import app.timetables.api.search.schedule.course.service.result.CourseDto;
 import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,45 +18,52 @@ import org.springframework.stereotype.Service;
 @Service
 public class CourseSearch {
 
-    private final CoursePartsProviderInterface coursePartsProvider;
-
     private final GraphBuilderInterface graphBuilder;
 
     private final PathFinderInterface pathFinder;
 
-    private List<Course> courses = new ArrayList<>();
+    private final CourseRepository courseRepository;
+
+    private final CoursePartRepository coursePartRepository;
 
     @Autowired
     public CourseSearch(
-        CoursePartsProviderInterface coursePartsProvider,
         GraphBuilderInterface graphBuilder,
-        PathFinderInterface pathFinder
+        PathFinderInterface pathFinder,
+        CourseRepository courseRepository,
+        CoursePartRepository coursePartRepository
     ) {
-        this.coursePartsProvider = coursePartsProvider;
         this.graphBuilder = graphBuilder;
         this.pathFinder = pathFinder;
+        this.courseRepository = courseRepository;
+        this.coursePartRepository = coursePartRepository;
     }
 
     public CourseSearchResult search(CourseSearchQuery courseSearchQuery) {
-        Graph graph = buildGraph(courseSearchQuery);
-        Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
-        Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
-
-        if (validate(startNode, endNode)) {
-            return new CourseSearchResult();
-        }
-
-        return createResult(pathFinder.find(startNode, endNode, graph), graph);
-    }
-
-    private CourseSearchResult createResult(List<Path> paths, Graph graph) {
         CourseSearchResult courseSearchResult = new CourseSearchResult();
+        for (Course course : courseRepository.findAll()) {
+            Graph graph = graphBuilder.build(coursePartRepository.findByCourse(course));
+            Node startNode = graph.getNode(courseSearchQuery.getStartPlace());
+            Node endNode = graph.getNode(courseSearchQuery.getEndPlace());
 
-        for (Path path : paths) {
-            resolveCourses(graph, courseSearchResult, path);
+            if (validate(startNode, endNode)) {
+                continue;
+            }
+
+            createResult(pathFinder.find(startNode, endNode, graph), graph, courseSearchResult);
         }
 
         return courseSearchResult;
+    }
+
+    private void createResult(
+        List<Path> paths,
+        Graph graph,
+        CourseSearchResult courseSearchResult
+    ) {
+        for (Path path : paths) {
+            resolveCourses(graph, courseSearchResult, path);
+        }
     }
 
     private void resolveCourses(Graph graph, CourseSearchResult courseSearchResult, Path path) {
@@ -83,10 +91,6 @@ public class CourseSearch {
 
     private boolean validate(Node startNode, Node endNode) {
         return startNode == null || endNode == null;
-    }
-
-    private Graph buildGraph(CourseSearchQuery courseSearchQuery) {
-        return graphBuilder.build(coursePartsProvider.get());
     }
 
 }
