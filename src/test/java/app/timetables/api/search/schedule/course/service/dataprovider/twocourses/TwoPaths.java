@@ -101,7 +101,6 @@ public class TwoPaths {
         return courseMock;
     }
 
-
     public static List<Course> getCourses() {
         List<Course> courses = new ArrayList<>();
         courses.add(getFirstCourse());

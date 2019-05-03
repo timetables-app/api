@@ -14,26 +14,17 @@ public class TwoComplexPaths {
 
     public static List<CoursePart> get() {
         List<CoursePart> courseParts = new ArrayList<>();
-        PlaceCreator placeCreator = new PlaceCreator();
-
-        Timetable timetableMock1 = Mockito.mock(Timetable.class);
-        Mockito.when(timetableMock1.getId()).thenReturn(1L);
-
-        firstCourse(courseParts, placeCreator, timetableMock1);
-        secondCourse(courseParts, placeCreator, timetableMock1);
-        thirdCourse(courseParts, placeCreator, timetableMock1);
+        courseParts.addAll(getFirstCourseParts());
+        courseParts.addAll(getSecondCourseParts());
+        courseParts.addAll(getThirdCourseParts());
 
         return courseParts;
     }
 
-    private static void firstCourse(
-        List<CoursePart> courseParts,
-        PlaceCreator placeCreator,
-        Timetable timetableMock1
-    ) {
-        Course courseMock1 = Mockito.mock(Course.class);
-        Mockito.when(courseMock1.getId()).thenReturn(1L);
-        Mockito.when(courseMock1.getTimetable()).thenReturn(timetableMock1);
+    public static List<CoursePart> getFirstCourseParts() {
+        List<CoursePart> courseParts = new ArrayList<>();
+        PlaceCreator placeCreator = new PlaceCreator();
+        Course courseMock1 = getFirstCourse();
 
         Place place1 = placeCreator.getPlace(1L);
         Place place2 = placeCreator.getPlace(2L);
@@ -56,16 +47,14 @@ public class TwoComplexPaths {
         Mockito.when(coursePart2.getDestinationTime()).thenReturn(LocalTime.of(8, 20));
         Mockito.when(coursePart2.getCourse()).thenReturn(courseMock1);
         courseParts.add(coursePart2);
+
+        return courseParts;
     }
 
-    private static void secondCourse(
-        List<CoursePart> courseParts,
-        PlaceCreator placeCreator,
-        Timetable timetableMock1
-    ) {
-        Course courseMock2 = Mockito.mock(Course.class);
-        Mockito.when(courseMock2.getId()).thenReturn(2L);
-        Mockito.when(courseMock2.getTimetable()).thenReturn(timetableMock1);
+    public static List<CoursePart> getSecondCourseParts(){
+        List<CoursePart> courseParts = new ArrayList<>();
+        PlaceCreator placeCreator = new PlaceCreator();
+        Course courseMock2 = getSecondCourse();
 
         Place place3 = placeCreator.getPlace(3L);
         Place place1 = placeCreator.getPlace(1L);
@@ -88,16 +77,14 @@ public class TwoComplexPaths {
         Mockito.when(coursePart2.getDestinationTime()).thenReturn(LocalTime.of(8, 30));
         Mockito.when(coursePart2.getCourse()).thenReturn(courseMock2);
         courseParts.add(coursePart2);
+
+        return courseParts;
     }
 
-    private static void thirdCourse(
-        List<CoursePart> courseParts,
-        PlaceCreator placeCreator,
-        Timetable timetableMock1
-    ) {
-        Course courseMock2 = Mockito.mock(Course.class);
-        Mockito.when(courseMock2.getId()).thenReturn(3L);
-        Mockito.when(courseMock2.getTimetable()).thenReturn(timetableMock1);
+    public static List<CoursePart> getThirdCourseParts() {
+        List<CoursePart> courseParts = new ArrayList<>();
+        PlaceCreator placeCreator = new PlaceCreator();
+        Course courseMock3 = getThirdCourse();
 
         Place place6 = placeCreator.getPlace(6L);
         Place place5 = placeCreator.getPlace(5L);
@@ -110,7 +97,7 @@ public class TwoComplexPaths {
         Mockito.when(coursePart1.getDestination()).thenReturn(place5);
         Mockito.when(coursePart1.getSourceTime()).thenReturn(LocalTime.of(8, 10));
         Mockito.when(coursePart1.getDestinationTime()).thenReturn(LocalTime.of(8, 25));
-        Mockito.when(coursePart1.getCourse()).thenReturn(courseMock2);
+        Mockito.when(coursePart1.getCourse()).thenReturn(courseMock3);
         courseParts.add(coursePart1);
 
         CoursePart coursePart2 = Mockito.mock(CoursePart.class);
@@ -119,7 +106,7 @@ public class TwoComplexPaths {
         Mockito.when(coursePart2.getDestination()).thenReturn(place4);
         Mockito.when(coursePart2.getSourceTime()).thenReturn(LocalTime.of(8, 35));
         Mockito.when(coursePart2.getDestinationTime()).thenReturn(LocalTime.of(8, 40));
-        Mockito.when(coursePart2.getCourse()).thenReturn(courseMock2);
+        Mockito.when(coursePart2.getCourse()).thenReturn(courseMock3);
         courseParts.add(coursePart2);
 
         CoursePart coursePart3 = Mockito.mock(CoursePart.class);
@@ -128,9 +115,50 @@ public class TwoComplexPaths {
         Mockito.when(coursePart3.getDestination()).thenReturn(place7);
         Mockito.when(coursePart3.getSourceTime()).thenReturn(LocalTime.of(8, 40));
         Mockito.when(coursePart3.getDestinationTime()).thenReturn(LocalTime.of(8, 50));
-        Mockito.when(coursePart3.getCourse()).thenReturn(courseMock2);
+        Mockito.when(coursePart3.getCourse()).thenReturn(courseMock3);
         courseParts.add(coursePart3);
+
+        return courseParts;
     }
 
+
+    private static Course getFirstCourse() {
+        Timetable timetableMock = Mockito.mock(Timetable.class);
+        Mockito.when(timetableMock.getId()).thenReturn(1L);
+
+        Course courseMock = Mockito.mock(Course.class);
+        Mockito.when(courseMock.getId()).thenReturn(1L);
+        Mockito.when(courseMock.getTimetable()).thenReturn(timetableMock);
+        return courseMock;
+    }
+
+    private static Course getSecondCourse() {
+        Timetable timetableMock = Mockito.mock(Timetable.class);
+        Mockito.when(timetableMock.getId()).thenReturn(1L);
+
+        Course courseMock = Mockito.mock(Course.class);
+        Mockito.when(courseMock.getId()).thenReturn(2L);
+        Mockito.when(courseMock.getTimetable()).thenReturn(timetableMock);
+        return courseMock;
+    }
+
+    private static Course getThirdCourse() {
+        Timetable timetableMock = Mockito.mock(Timetable.class);
+        Mockito.when(timetableMock.getId()).thenReturn(1L);
+
+        Course courseMock = Mockito.mock(Course.class);
+        Mockito.when(courseMock.getId()).thenReturn(3L);
+        Mockito.when(courseMock.getTimetable()).thenReturn(timetableMock);
+        return courseMock;
+    }
+
+    public static List<Course> getCourses() {
+        List<Course> courses = new ArrayList<>();
+        courses.add(getFirstCourse());
+        courses.add(getSecondCourse());
+        courses.add(getThirdCourse());
+
+        return courses;
+    }
 
 }
