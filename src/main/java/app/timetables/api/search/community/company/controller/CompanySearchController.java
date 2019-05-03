@@ -50,14 +50,10 @@ public class CompanySearchController {
         @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) Integer page,
         @RequestParam(defaultValue = DEFAULT_SORT) String sort
     ) {
-        CompanySearchQuery companySearchQuery = new CompanySearchQuery();
-        companySearchQuery.setName(query);
-        companySearchQuery.setPhone(query);
-
         companySearch.size(size)
             .page(page)
             .sort(sort)
-            .specificationFor(companySearchQuery);
+            .specificationFor(new CompanySearchQuery(query, query));
 
         return ResponseEntity.of(Optional.of(companySearch.search()));
     }

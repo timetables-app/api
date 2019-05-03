@@ -1,5 +1,6 @@
 package app.timetables.api.schedule.domain;
 
+import java.util.Objects;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,4 +44,21 @@ public class Place extends Obsoletable {
     @Getter
     @NonNull
     private Integer capacity;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Place place = (Place) o;
+        return getId().equals(place.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
