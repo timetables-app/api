@@ -12,16 +12,11 @@ import org.mockito.Mockito;
 
 public class ThreeCoursePart {
 
-    public static List<CoursePart> get() {
+    public static List<CoursePart> getFirstCourseParts() {
         List<CoursePart> courseParts = new ArrayList<>();
         PlaceCreator placeCreator = new PlaceCreator();
 
-        Timetable timetableMock1 = Mockito.mock(Timetable.class);
-        Mockito.when(timetableMock1.getId()).thenReturn(1L);
-
-        Course courseMock1 = Mockito.mock(Course.class);
-        Mockito.when(courseMock1.getId()).thenReturn(1L);
-        Mockito.when(courseMock1.getTimetable()).thenReturn(timetableMock1);
+        Course courseMock1 = getFirstCourse();
 
         Place place1 = placeCreator.getPlace(1L);
         Place place2 = placeCreator.getPlace(2L);
@@ -56,6 +51,24 @@ public class ThreeCoursePart {
         courseParts.add(coursePart3);
 
         return courseParts;
+    }
+
+    private static Course getFirstCourse() {
+        Timetable timetableMock = Mockito.mock(Timetable.class);
+        Mockito.when(timetableMock.getId()).thenReturn(1L);
+
+        Course courseMock = Mockito.mock(Course.class);
+        Mockito.when(courseMock.getId()).thenReturn(1L);
+        Mockito.when(courseMock.getTimetable()).thenReturn(timetableMock);
+        return courseMock;
+    }
+
+
+    public static List<Course> getCourses() {
+        List<Course> courses = new ArrayList<>();
+        courses.add(getFirstCourse());
+
+        return courses;
     }
 
 

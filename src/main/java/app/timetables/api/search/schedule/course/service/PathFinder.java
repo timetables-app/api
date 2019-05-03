@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PathFinder implements PathFinderInterface {
 
-    private final List<Path> foundPaths = new ArrayList<>();
+    private List<Path> foundPaths;
 
     public List<Path> find(Node startNode, Node endNode, Graph graph) {
+        foundPaths = new ArrayList<>();
         Map<Long, Boolean> visited = new HashMap<>(graph.getSize());
         LinkedList<Long> localPath = new LinkedList<>();
 

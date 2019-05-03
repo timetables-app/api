@@ -9,10 +9,14 @@ import app.timetables.api.schedule.service.CoursePartRepository;
 import app.timetables.api.schedule.service.CourseRepository;
 import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.OneCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.ThreeCoursePart;
 import app.timetables.api.search.schedule.course.service.dataprovider.onecourse.TwoCoursePart;
+import app.timetables.api.search.schedule.course.service.dataprovider.twocourses.TwoPaths;
 import app.timetables.api.search.schedule.course.service.graph.GraphBuilder;
 import app.timetables.api.search.schedule.course.service.result.CourseDto;
 import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
+import app.timetables.api.search.schedule.course.service.result.PlaceDto;
+import java.time.LocalTime;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,49 +87,66 @@ public class CourseSearchTest {
         assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
         assertSame(3, courseDto.getParts().get(1L).getPlaces().size());
     }
-//
-//    @Test
-//    public void testCourseSearchForThreeCoursePart() {
-//        List<CoursePart> coursePartList = ThreeCoursePart.get();
-//        Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
-//        CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
-//
-//        numberOfFoundCourses(courseSearchResult, 1);
-//        numberOfPartsInCourse(courseSearchResult, 1L, 1);
-//
-//        CourseDto courseDto = courseSearchResult.getCourses().get(1L);
-//        assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
-//        assertSame(4, courseDto.getParts().get(1L).getPlaces().size());
-//    }
-//
-//    @Test
-//    public void testCourseSearchForTwoCourses_TwoPaths_1_4() {
-//        List<CoursePart> coursePartList = TwoPaths.get();
-//        Mockito.when(coursePartsProvider.get()).thenReturn(coursePartList);
-//        CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
-//
-//        numberOfFoundCourses(courseSearchResult, 2);
-//        numberOfPartsInCourse(courseSearchResult, 1L, 1);
-//        numberOfPartsInCourse(courseSearchResult, 2L, 1);
-//
-//        CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
-//        List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
-//        assertSame(1L, courseDto1.getParts().get(1L).getCourse().getId());
-//        assertSame(3, places1.size());
-//
-//        assertEquals(LocalTime.of(7, 0), places1.get(0).getTime());
-//        assertEquals(LocalTime.of(7, 15), places1.get(1).getTime());
-//        assertEquals(LocalTime.of(7, 20), places1.get(2).getTime());
-//
-//        CourseDto courseDto2 = courseSearchResult.getCourses().get(2L);
-//        List<PlaceDto> places2 = courseDto2.getParts().get(2L).getPlaces();
-//        assertSame(2L, courseDto2.getParts().get(2L).getCourse().getId());
-//        assertSame(3, courseDto2.getParts().get(2L).getPlaces().size());
-//
-//        assertEquals(LocalTime.of(7, 0), places2.get(0).getTime());
-//        assertEquals(LocalTime.of(7, 15), places2.get(1).getTime());
-//        assertEquals(LocalTime.of(7, 40), places2.get(2).getTime());
-//    }
+
+    @Test
+    public void testCourseSearchForThreeCoursePart() {
+        List<Course> courses = ThreeCoursePart.getCourses();
+        Mockito.when(courseRepository.findAll()).thenReturn(courses);
+        Mockito.when(coursePartRepository.findByCourse(Mockito.any(Course.class)))
+            .thenAnswer(invocation -> ThreeCoursePart.getFirstCourseParts());
+
+        CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
+
+        numberOfFoundCourses(courseSearchResult, 1);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
+
+        CourseDto courseDto = courseSearchResult.getCourses().get(1L);
+        assertSame(1L, courseDto.getParts().get(1L).getCourse().getId());
+        assertSame(4, courseDto.getParts().get(1L).getPlaces().size());
+    }
+
+    @Test
+    public void testCourseSearchForTwoCourses_TwoPaths_1_4() {
+        List<Course> courses = TwoPaths.getCourses();
+        Mockito.when(courseRepository.findAll()).thenReturn(courses);
+        Mockito.when(coursePartRepository.findByCourse(Mockito.any(Course.class)))
+            .thenAnswer(invocation -> {
+                Course course = invocation.getArgument(0);
+                if(course.getId() == 1L){
+                    return TwoPaths.getFirstCourseParts();
+                }
+
+                if(course.getId() == 2L){
+                    return TwoPaths.getSecondCourseParts();
+                }
+
+                return null;
+            });
+
+        CourseSearchResult courseSearchResult = searchForPlaces(1L, 4L);
+
+        numberOfFoundCourses(courseSearchResult, 2);
+        numberOfPartsInCourse(courseSearchResult, 1L, 1);
+        numberOfPartsInCourse(courseSearchResult, 2L, 1);
+
+        CourseDto courseDto1 = courseSearchResult.getCourses().get(1L);
+        List<PlaceDto> places1 = courseDto1.getParts().get(1L).getPlaces();
+        assertSame(1L, courseDto1.getParts().get(1L).getCourse().getId());
+        assertSame(3, places1.size());
+
+        assertEquals(LocalTime.of(7, 0), places1.get(0).getTime());
+        assertEquals(LocalTime.of(7, 15), places1.get(1).getTime());
+        assertEquals(LocalTime.of(7, 20), places1.get(2).getTime());
+
+        CourseDto courseDto2 = courseSearchResult.getCourses().get(2L);
+        List<PlaceDto> places2 = courseDto2.getParts().get(2L).getPlaces();
+        assertSame(2L, courseDto2.getParts().get(2L).getCourse().getId());
+        assertSame(3, courseDto2.getParts().get(2L).getPlaces().size());
+
+        assertEquals(LocalTime.of(7, 0), places2.get(0).getTime());
+        assertEquals(LocalTime.of(7, 15), places2.get(1).getTime());
+        assertEquals(LocalTime.of(7, 40), places2.get(2).getTime());
+    }
 //
 //    @Test
 //    public void testCourseSearchForTwoCourses_TwoPaths_3_4() {

@@ -63,7 +63,7 @@ public class PathFinderTest {
 
     @Test
     public void testFindPathForThreeCoursePart() {
-        Graph graph = graphBuilder.build(ThreeCoursePart.get());
+        Graph graph = graphBuilder.build(ThreeCoursePart.getFirstCourseParts());
 
         Node startNode = graph.getNode(1L);
         Node endNode = graph.getNode(4L);
