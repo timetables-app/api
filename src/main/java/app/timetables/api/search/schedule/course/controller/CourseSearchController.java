@@ -4,13 +4,11 @@ import app.timetables.api.search.schedule.course.CourseSearchQuery;
 import app.timetables.api.search.schedule.course.service.CourseSearch;
 import app.timetables.api.search.schedule.course.service.result.CourseSearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/courses/search")
+@CrossOrigin
 public class CourseSearchController {
 
     @Autowired
