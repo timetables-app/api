@@ -12,7 +12,7 @@ import app.timetables.api.community.domain.GeneratedToken;
  * @author kmrozowski
  *
  */
-public interface TokenRepository extends CrudRepository<GeneratedToken, Long> {
+public interface GeneratedTokenRepository extends CrudRepository<GeneratedToken, Long> {
 	
 	/**
 	 * Finds token by it's value.

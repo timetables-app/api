@@ -6,8 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
 import app.timetables.api.community.constraints.Login;
 import app.timetables.api.community.constraints.Password;
 import lombok.AllArgsConstructor;

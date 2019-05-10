@@ -15,7 +15,7 @@ import app.timetables.api.community.dto.UserRegistrationRequestDTO;
 import app.timetables.api.community.exception.MailerException;
 import app.timetables.api.community.exception.UserDoesntExistsException;
 import app.timetables.api.community.exception.UserExistsException;
-import app.timetables.api.community.repository.TokenRepository;
+import app.timetables.api.community.repository.GeneratedTokenRepository;
 import app.timetables.api.community.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,10 +31,10 @@ public class UserRegistrationService {
 	private UserRepository repository;
 	
 	@Autowired
-	private TokenRepository tokenRepository;
+	private GeneratedTokenRepository tokenRepository;
 	
 	@Autowired
-	private MailSender sender;
+	private MailSenderMock sender;
 	
 	public void register(UserRegistrationRequestDTO dto) {
 		if(repository.existsByLogin(dto.getLogin())) {
