@@ -1,12 +1,12 @@
 package app.timetables.api.community.service;
 
-import org.h2.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import app.timetables.api.common.BusinessException;
 import app.timetables.api.community.domain.AuthToken;
@@ -50,7 +50,7 @@ public class UserService {
 	 */
 	public void logout(String tokenValue) {
 		String parsedValue = tokenValue;
-		if(StringUtils.isNullOrEmpty(parsedValue)) {
+		if(StringUtils.isEmpty(parsedValue)) {
 			throw new BusinessException("NO_TOKEN_PRESENT");
 		}
 		if(parsedValue.startsWith(AUTH_PREFIX)) {
