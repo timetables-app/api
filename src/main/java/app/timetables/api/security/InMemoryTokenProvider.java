@@ -15,6 +15,11 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * In memory jwt token provider.
+ * @author kmrozowski
+ *
+ */
 @Component
 @Slf4j
 public class InMemoryTokenProvider {

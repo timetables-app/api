@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.timetables.api.common.GenericResponse;
+import app.timetables.api.common.GenericResponseDto;
 import app.timetables.api.community.constraints.Password;
 import app.timetables.api.community.dto.UserRegistrationRequestDTO;
 import app.timetables.api.community.service.UserRegistrationService;
@@ -38,9 +38,9 @@ public class UserRegistrationController {
 	 * @return
 	 */
 	@PostMapping
-	public GenericResponse<Void> register(@Valid @RequestBody UserRegistrationRequestDTO dto) {
+	public GenericResponseDto<Void> register(@Valid @RequestBody UserRegistrationRequestDTO dto) {
 		service.register(dto);
-		return GenericResponse.success();
+		return GenericResponseDto.success();
 	}
 	
 	/**
@@ -50,14 +50,14 @@ public class UserRegistrationController {
 	 * @return
 	 */
 	@GetMapping("/user/available")
-	public GenericResponse<Boolean> emailAvailable(@RequestParam(name = "email") String email, @RequestParam(name = "username") String username) {
-		return GenericResponse.success(StringUtils.isEmpty(email) ? service.usernameAvailable(username) : service.emailAvailable(email));
+	public GenericResponseDto<Boolean> emailAvailable(@RequestParam(name = "email") String email, @RequestParam(name = "username") String username) {
+		return GenericResponseDto.success(StringUtils.isEmpty(email) ? service.usernameAvailable(username) : service.emailAvailable(email));
 	}
 	
 	@GetMapping("/user/confirm")
-	public GenericResponse<Void> confirmUser(@RequestParam(name = "token") String token) {
+	public GenericResponseDto<Void> confirmUser(@RequestParam(name = "token") String token) {
 		service.confirmUser(token);
-		return GenericResponse.success();
+		return GenericResponseDto.success();
 	}
 	
 	/**
@@ -65,9 +65,9 @@ public class UserRegistrationController {
 	 * @return
 	 */
 	@GetMapping("/password/reset")
-	public GenericResponse<Void> resetPassword() {
+	public GenericResponseDto<Void> resetPassword() {
 		service.resetPassword();
-		return GenericResponse.success();
+		return GenericResponseDto.success();
 	}
 	
 	
@@ -76,14 +76,14 @@ public class UserRegistrationController {
 	 * @param token
 	 */
 	@GetMapping("/password/confirm")
-	public GenericResponse<Void> confirmPassword(@RequestParam(name = "token") String token, @RequestParam(name = "password") String password) {
+	public GenericResponseDto<Void> confirmPassword(@RequestParam(name = "token") String token, @RequestParam(name = "password") String password) {
 		service.confirmPassword(token, password);
-		return GenericResponse.success();
+		return GenericResponseDto.success();
 	}
 	
 	@GetMapping("/password/update")
-	public GenericResponse<Void> updatePassword(@RequestParam(name = "password") @Password String password) {
+	public GenericResponseDto<Void> updatePassword(@RequestParam(name = "password") @Password String password) {
 		service.updatePassword(password);
-		return GenericResponse.success();
+		return GenericResponseDto.success();
 	}
 }

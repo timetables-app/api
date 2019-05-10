@@ -8,6 +8,11 @@ import javax.persistence.MappedSuperclass;
 
 import lombok.Getter;
 
+/**
+ * Super class for all entities with Long Id.
+ * @author kmrozowski
+ *
+ */
 @MappedSuperclass
 public class EntityBase {
 
@@ -17,6 +22,10 @@ public class EntityBase {
 	@Getter
 	private Long id;
 
+	/**
+	 * Checks if entity is persisted.
+	 * @return
+	 */
 	public boolean isNew() {
 		return id == null;
 	}

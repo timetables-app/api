@@ -8,12 +8,23 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
+/**
+ * Generic message translator.
+ * @author kmrozowski
+ *
+ */
 @Component
 public class MessageTranslator {
 	private static final String UNKNOWN = "UNKNOWN_MESSAGE";
+	
 	@Autowired
 	private ResourceBundleMessageSource messageSource;
 	
+	/**
+	 * Translates message to locale held by request context. If translation is not available unknown message is returned.
+	 * @param msg
+	 * @return
+	 */
 	public String translate(String msg) {
 		Locale locale = LocaleContextHolder.getLocale();
 		try {
@@ -23,6 +34,11 @@ public class MessageTranslator {
 		}
 	}
 	
+	/**
+	 * Translates message with parameters to locale held by request context. If translation is not available unknown message is returned.
+	 * @param msg
+	 * @return
+	 */
 	public String translate(String msg, Object[] args) {
 		Locale locale = LocaleContextHolder.getLocale();
 		try {
@@ -30,5 +46,14 @@ public class MessageTranslator {
 		} catch (NoSuchMessageException ex) {
 			return UNKNOWN;
 		}
+	}
+	
+	/**
+	 * Checks if translated message is unknown message.
+	 * @param message
+	 * @return
+	 */
+	public static boolean isUnknownMessage(String message) {
+		return UNKNOWN.equals(message);
 	}
 }
