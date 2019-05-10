@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 @SpringBootApplication
 @EnableSwagger2WebMvc
-@Import(SpringDataRestConfiguration.class)
+@Import({SpringDataRestConfiguration.class, AppConfig.class, SecurityConfig.class})
 public class MainApp {
     public static void main(String[] args) {
         SpringApplication.run(MainApp.class, args);
