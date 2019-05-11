@@ -1,6 +1,7 @@
 package app.timetables.api.community.domain;
 
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
