@@ -50,7 +50,7 @@ public class UserRegistrationController {
 	 * @return
 	 */
 	@GetMapping("/user/available")
-	public GenericResponseDto<Boolean> emailAvailable(@RequestParam(name = "email") String email, @RequestParam(name = "username") String username) {
+	public GenericResponseDto<Boolean> emailAvailable(@RequestParam(name = "email", required = false) String email, @RequestParam(name = "login", required = false) String username) {
 		return GenericResponseDto.success(StringUtils.isEmpty(email) ? service.usernameAvailable(username) : service.emailAvailable(email));
 	}
 	

@@ -29,4 +29,8 @@ public class TimetablesUserDetailService implements UserDetailsService {
 		User user = userRepository.findById(Id).orElseThrow(() -> new UsernameNotFoundException("NO_USER_FOUND"));
 		return TimetablesUserDetails.create(user);
 	}
+	
+	public boolean tokenExists(String token) {
+		return true;
+	}
 }

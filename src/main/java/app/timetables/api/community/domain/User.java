@@ -26,7 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User extends EntityBase {

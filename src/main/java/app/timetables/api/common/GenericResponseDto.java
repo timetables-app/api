@@ -5,6 +5,8 @@ import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Class representing response entity that's capable of displaying either success value or translated error.
@@ -14,6 +16,8 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@Setter
 public class GenericResponseDto<T> implements Serializable {
 
 	private static final long serialVersionUID = -1111058197024949111L;

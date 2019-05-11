@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import app.timetables.api.common.EntityBase;
 import lombok.AccessLevel;
@@ -15,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "GENERATED_TOKEN")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GeneratedToken extends EntityBase {
   

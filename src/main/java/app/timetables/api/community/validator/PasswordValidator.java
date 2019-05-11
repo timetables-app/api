@@ -11,7 +11,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String>{
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		return StringUtils.hasText(value);
+		return StringUtils.hasText(value) && value.length() >= 8;
 	}
 
 }

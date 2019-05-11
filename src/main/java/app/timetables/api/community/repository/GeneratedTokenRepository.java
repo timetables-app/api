@@ -19,6 +19,8 @@ public interface GeneratedTokenRepository extends CrudRepository<GeneratedToken,
 	 */
 	Optional<GeneratedToken> findByToken(String token);
 	
+	Optional<GeneratedToken> findByUserLogin(String login);
+	
 	/**
 	 * Gets token by it's value. If the token is not in the database or token is not valid, bussiness exception is raised.
 	 */
