@@ -1,5 +1,9 @@
 # Timetable App Api
 
+Documentation:
+
+https://timetables-app.github.io/docs/
+
 For building project use
 
 ```
