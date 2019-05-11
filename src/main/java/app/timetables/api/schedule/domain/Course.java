@@ -1,32 +1,24 @@
 package app.timetables.api.schedule.domain;
 
+import lombok.*;
+
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class Course extends EntityBase {
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
+    @NonNull
+    @Getter
     private Timetable timetable;
+
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
+    @NonNull
+    @Getter
     private Line line;
-    @ManyToOne(optional = false)
-    private Vehicle supportedVehicle;
-
-    public Course(Timetable timetable, Line line, Vehicle supportedVehicle) {
-        this.timetable = timetable;
-        this.line = line;
-        this.supportedVehicle = supportedVehicle;
-    }
-
-    public Timetable getTimetable() {
-        return timetable;
-    }
-
-    public Line getLine() {
-        return line;
-    }
-
-    public Vehicle getSupportedVehicle() {
-        return supportedVehicle;
-    }
 }

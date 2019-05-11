@@ -1,34 +1,28 @@
 package app.timetables.api.schedule.domain;
 
 import app.timetables.api.community.domain.Company;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class Timetable extends EntityBase {
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    @Getter
     private Date validFrom;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
+    @NonNull
+    @Getter
     private Date validUntil;
+
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
+    @NonNull
+    @Getter
     private Company supportedCompany;
-
-    public Timetable(Date validFrom, Date validUntil, Company supportedCompany) {
-        this.validFrom = validFrom;
-        this.validUntil = validUntil;
-        this.supportedCompany = supportedCompany;
-    }
-
-    public Date getValidFrom() {
-        return validFrom;
-    }
-
-    public Date getValidUntil() {
-        return validUntil;
-    }
-
-    public Company getSupportedCompany() {
-        return supportedCompany;
-    }
 }

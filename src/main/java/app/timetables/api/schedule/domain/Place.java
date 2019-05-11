@@ -1,76 +1,64 @@
 package app.timetables.api.schedule.domain;
 
+import java.util.Objects;
+import lombok.*;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Place extends Obsoletable {
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private PlaceType type;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Double lat;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Double lng;
+
     @ManyToOne(optional = false)
+    @JoinColumn(updatable = false)
+    @Getter
+    @NonNull
     private Locality locality;
-    @Enumerated(EnumType.STRING)
-    @ElementCollection
-    private Set<Amenity> amenities;
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private String name;
-    @Column(nullable = false)
-    private String explanation;
+
+    @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
+    private String explanation = "";
+
     @ManyToOne
-    private Place isVariantOf;
-    @Column(nullable = false)
+    @JoinColumn(updatable = false)
+    @Getter
+    private Place variantOf;
+
+    @Column(nullable = false, updatable = false)
+    @Getter
+    @NonNull
     private Integer capacity;
 
-    public Place(PlaceType type, Double lat, Double lng, Locality locality, Set<Amenity> amenities, String name, String explanation, Place isVariantOf, Integer capacity) {
-        this.type = type;
-        this.lat = lat;
-        this.lng = lng;
-        this.locality = locality;
-        this.amenities = amenities;
-        this.name = name;
-        this.explanation = explanation;
-        this.isVariantOf = isVariantOf;
-        this.capacity = capacity;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Place place = (Place) o;
+        return getId().equals(place.getId());
     }
 
-    public PlaceType getType() {
-        return type;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public Locality getLocality() {
-        return locality;
-    }
-
-    public Set<Amenity> getAmenities() {
-        return amenities;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getExplanation() {
-        return explanation;
-    }
-
-    public Place getIsVariantOf() {
-        return isVariantOf;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
