@@ -7,6 +7,8 @@ import java.util.Date;
 
 @Projection(types = Timetable.class)
 public interface TimetableProjection {
+    public Long getId();
+
     @Value("#{target.supportedCompany.name}")
     public String getSupportedCompany();
 
