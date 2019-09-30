@@ -1,0 +1,119 @@
+openapi: 3.0.2
+info:
+  title: Timetables
+  description: Server API for searching courses, maintaining schedules' registry and networking between passengers.
+  version: 0.0.1
+servers:
+  - url: https://master-api.timetables.app
+    description: Production API (master branch)
+  - url: https://dev-api.timetables.app
+    description: dev branch
+tags:
+  - name: Place
+    description: Represents geopoint which can be course's source, intermediary or target.
+  - name: admin
+    description: Operations available for users with admin role.
+  - name: traveller
+    description: Operations available for users with traveller role.
+paths:
+  /places:
+    get:
+      tags:
+        - Place
+      operationId: findPlaces
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: nearby
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lat:
+                    type: number
+                  lng:
+                    type: number
+                  radius:
+                    type: number
+                required:
+                  - lat
+                  - lng
+                  - radius
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+  /places/traveller:
+    post:
+      tags:
+        - Place
+        - traveller
+  /places/admin:
+    get:
+      tags:
+        - Place
+        - admin
+      operationId: findPlacesAdmin
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: number
+        - name: perPage
+          in: query
+          schema:
+            type: number
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    osmId:
+                      type: integer
+                    ttId:
+                      type: integer
+                    approved:
+                      type: boolean
+                    createdBy:
+                      type: object
+                      properties:
+                        '@type':
+                          type: string
+                          enum:
+                            - User
+                        id:
+                          type: number
+                        username:
+                          type: string
+                    name:
+                      type: string
+                      description: Subject to i18n
+    post:
+      tags:
+        - Place
+        - admin
